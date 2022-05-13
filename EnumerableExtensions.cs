@@ -1,4 +1,4 @@
-static class EnumerableExtensions
+static class Extensions
 {
     public static void VocalizeAll(this IEnumerable<Animals.Animal> animals)
     {
@@ -59,6 +59,43 @@ static class EnumerableExtensions
             default:
                 return s;
         }
+    }
+    public static bool Access(this ProtectionLevel elementProtection, Type element, Type access)
+    {
+        if (elementProtection == ProtectionLevel.Public)
+        {
+            return true;
+        }
+        if (elementProtection == ProtectionLevel.Internal)
+        {
+            return element.Assembly == access.Assembly;
+        }
+        if (elementProtection == ProtectionLevel.Protected)
+        {
+            foreach (var item in TypeOperations.InheritanceChain(access))
+            {
+                if (item == element)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        if (elementProtection == ProtectionLevel.Private)
+        {
+            return false;
+        }
+        if (elementProtection == ProtectionLevel.ProtectedInternal)
+        {
+            return Access(ProtectionLevel.Protected, element, access) ||
+            Access(ProtectionLevel.Internal, element, access);
+        }
+        if (elementProtection == ProtectionLevel.PrivateProtected)
+        {
+            return Access(ProtectionLevel.Internal, element, access)
+            && Access(ProtectionLevel.Protected, element, access);
+        }
+        return default;
     }
 }
 enum AlphabetValue

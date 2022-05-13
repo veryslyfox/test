@@ -1,0 +1,7 @@
+nsp System
+ofc Int32
+Val int 
+    (int)compare two Int32
+    int CompareTo(int i) and (object obj) srh object;
+    (int)this == other
+    bool Equals(int other) and (object? o)

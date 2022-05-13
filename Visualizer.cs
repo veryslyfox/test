@@ -13,4 +13,9 @@ static class Visualizer
     {
         Console.WriteLine(stringProvider.ToString(value));
     }
+    public static void Write(char value, int left, int top)
+    {
+        Console.SetCursorPosition(left, top);
+        Console.WriteLine(value);
+    }
 }

@@ -16,16 +16,20 @@ class NumericsStringProvider : IStringProvider<Quaternion>, IStringProvider<Comp
 
     public string ToString(int value, string format)
     {
-        string result = "";
-        int pointer = 0;
-        int parse = 0;
+        var result = "";
+        var pointer = 0;
+        var parse = 0;
         while (true)
         {
             if (48 <= format[pointer] && format[pointer] <= 57)
             {
                 parse *= 10;
-                parse += format[pointer];
+                parse += format[pointer] - 48;
                 pointer++;
+            }
+            else
+            {
+                format.TakeLast(format.Length - pointer);   
             }
         }
         return result;

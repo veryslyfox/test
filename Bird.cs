@@ -13,9 +13,9 @@ abstract class Bird : Animal
     {
         _isFly = true;
     }
-    public void UnFly(Tree tree)
+    public void Land(Tree tree)
     {
         _isFly = false;
     }
-    public bool IsFly { get => _isFly; private set { } }
+    public bool IsFly { get => _isFly; private set { _isFly = value; } }
 }

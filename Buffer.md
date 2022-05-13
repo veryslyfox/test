@@ -1,7 +1,12 @@
-$$ \pi \approx 3.14159265358979323806 $$
-$$ n! \approx (n/e)^{n / e} * \sqrt{2 \pi n} $$
-$$ \begin{array}{rcl}   
+$$
+\begin{array}{l}   
+ \pi \approx 3.14159265358979323806 \\
+n! \approx (n/e)^{n / e} * \sqrt{2 \pi n} \\
 Гугол = 10 ^ {100} \\
 Гуголплекс = 10^{10^{100}} \\
-Гиггол = {\displaystyle \underbrace {10^{10^{10^{\cdots ^{10^{10}}}}}} _{\text{100 десяток}}}
-\end{array} $$
+Гиггол = {\displaystyle \underbrace {10^{10^{10^{\cdots ^{10^{10}}}}}} _{\text{100 десяток}}} = 10 \uparrow \uparrow 100\\
+Гаггол = 10 \uparrow \uparrow \uparrow 100 \\
+Тритри = 3 \uparrow \uparrow \uparrow 3 =
+
+\end{array} 
+$$

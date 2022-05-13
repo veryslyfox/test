@@ -2,6 +2,7 @@ class CipherStream
 {
     public CipherStream()
     {
+        
         Bytes = new List<IEnumerable<byte>>();
     }
     public CipherStream(IEnumerable<IEnumerable<byte>> bytes)
