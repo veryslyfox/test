@@ -97,3 +97,10 @@ static partial class Program
         return exceptions.ToArray();
     }
 }
+class Abc
+{
+    public static bool op_Equality(Abc abc1, Abc abc2)
+    {
+        return true;
+    }
+}

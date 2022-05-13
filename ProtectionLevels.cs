@@ -1,4 +1,4 @@
-public enum ProtectionLevels
+public enum ProtectionLevel
 {
     Public,
     Internal,
