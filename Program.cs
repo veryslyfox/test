@@ -21,9 +21,26 @@ using System.Desecurity;
 using System.Buffers.Binary;
 using System.Xml;
 using System.Runtime.CompilerServices;
-using Quaternion = MyMath.Quaternion;
+using System.Collections;
 
 delegate TResult FuncOut<TValue, TResult, TOut>(TValue value, out TOut result);
+class OrderedEnumerable : IOrderedEnumerable<int>
+{
+    public IOrderedEnumerable<int> CreateOrderedEnumerable<TKey>(Func<int, TKey> keySelector, IComparer<TKey>? comparer, bool descending)
+    {
+        return this;
+    }
+
+    public IEnumerator<int> GetEnumerator()
+    {
+        yield break;
+    }
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return this.GetEnumerator();
+    }
+}
 static partial class Program
 {
     static void Main()

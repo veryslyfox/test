@@ -10,8 +10,9 @@ class ReflectData
     }
 
     public ReflectData(FieldInfo[] fields = null, PropertyInfo[] properties = null,
-     System.Reflection.MethodInfo[] methods = null, ConstructorInfo[] constructors = null, EventInfo[] events = null)
+    MethodInfo[] methods = null, ConstructorInfo[] constructors = null, EventInfo[] events = null)
     {
+
         Fields = fields;
         Properties = properties;
         Methods = methods;
@@ -20,7 +21,7 @@ class ReflectData
     }
     public FieldInfo[] Fields { get; set; }
     public PropertyInfo[] Properties { get; set; }
-    public System.Reflection.MethodInfo[] Methods { get; set; }
+    public MethodInfo[] Methods { get; set; }
     public ConstructorInfo[] Constructors { get; set; }
     public EventInfo[] Events { get; set; }
 }

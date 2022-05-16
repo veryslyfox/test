@@ -19,7 +19,7 @@ class SpecialList<T>
         get => List[index - MinValue];
         set => List[index - MinValue] = value;
     }
-    public new T this[int index]
+    public T this[int index]
     {
         get => this[index + MinValue, new Flag()];
         set => this[index + MinValue, new Flag()] = value;

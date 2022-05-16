@@ -2,7 +2,6 @@ class CipherStream
 {
     public CipherStream()
     {
-        
         Bytes = new List<IEnumerable<byte>>();
     }
     public CipherStream(IEnumerable<IEnumerable<byte>> bytes)
@@ -32,5 +31,13 @@ class CipherStream
             Bytes[index] = Bytes[index].Select(i => (byte)(i ^ key));
         }
         return result;
+    }
+    public void Add(byte[] value)
+    {
+    }
+    public bool Add(int index, byte[] value)
+    {
+        if(index < 0 || index >= Bytes.Count)
+        Bytes.Insert(index, value);
     }
 }

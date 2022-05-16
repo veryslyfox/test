@@ -14,7 +14,7 @@ static class Extensions
             animal.Vocalize();
         }
     }
-    public static IEnumerable<T> Compress<T>(this IEnumerable<IEnumerable<T>> values)
+    public static IEnumerable<T> Fold<T>(this IEnumerable<IEnumerable<T>> values)
     {
         return values.SelectMany(i => i);
     }
@@ -95,7 +95,7 @@ static class Extensions
             return Access(ProtectionLevel.Internal, element, access)
             && Access(ProtectionLevel.Protected, element, access);
         }
-        return default;
+        return false;
     }
 }
 enum AlphabetValue

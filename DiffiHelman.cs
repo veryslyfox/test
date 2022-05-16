@@ -1,7 +1,7 @@
 namespace System.Security.Cryptography;
-class DiffieHelmann
+class DiffieAndHellman
 {
-    public DiffieHelmann()
+    public DiffieAndHellman()
     {
     }   
 }
