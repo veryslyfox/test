@@ -22,60 +22,24 @@ using System.Buffers.Binary;
 using System.Xml;
 using System.Runtime.CompilerServices;
 using System.Collections;
-
 delegate TResult FuncOut<TValue, TResult, TOut>(TValue value, out TOut result);
-class OrderedEnumerable : IOrderedEnumerable<int>
-{
-    public IOrderedEnumerable<int> CreateOrderedEnumerable<TKey>(Func<int, TKey> keySelector, IComparer<TKey>? comparer, bool descending)
-    {
-        return this;
-    }
-
-    public IEnumerator<int> GetEnumerator()
-    {
-        yield break;
-    }
-
-    IEnumerator IEnumerable.GetEnumerator()
-    {
-        return this.GetEnumerator();
-    }
-}
+/*323170060713110073007148766886699519604441026697
+1548403213034542752465513886789089319720141152291346368871796092
+189801949411955915049092109508815238644828312063
+0877367300996091750197750389652106796057638384067568276792218642619
+75616183809433847617047058164585203630504288757589154106580860755239912393
+03855219143333896683424206849747865645694948561760353263220580778056593
+310261927084603141502585928641771167259436037184618573575
+98351152301645904403697613233287231227125684710820209
+7251571017269313234696785425806566979350459972683529986382
+15525166389437335543602135433229604645318478604952148193555853611059596230656*/
 static partial class Program
 {
     static void Main()
     {
         try
         {
-            CipherStream stream = new CipherStream();
-            stream.Hammation(23, 0);
-            var bigInteger = MathHigh.Pow(long.MaxValue, long.MaxValue);
-            Console.WriteLine(bigInteger);
-            var values = new byte[] { };
-            var array = new[] { 7, 11, 3993, 413, 3, 1, 6, 99, 233, 74 };
-            var max = array[0];
-            var comparisons = 0;
-            var secondMax = max;
-            for (var i = 1; i < array.Length; ++i)
-            {
-                var v = array[i];
-                ++comparisons;
-                if (max < v)
-                {
-                    secondMax = max;
-                    max = v;
-                }
-                else
-                {
-                    ++comparisons;
-                    if (secondMax < v)
-                    {
-                        secondMax = v;
-                    }
-                }
-            }
         }
-
         catch (Exception exception) { Console.Error.WriteLine(exception.GetExceptionValue()); }
         finally { Console.ReadKey(); }
     }
@@ -112,12 +76,5 @@ static partial class Program
             exceptions.Add(currentException);
         }
         return exceptions.ToArray();
-    }
-}
-class Abc
-{
-    public static bool op_Equality(Abc abc1, Abc abc2)
-    {
-        return true;
     }
 }

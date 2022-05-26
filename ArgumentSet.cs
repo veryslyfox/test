@@ -1,4 +1,4 @@
-struct ArgumentSet
+struct ArgumentSet 
 {
     public ArgumentSet()
     {
