@@ -21,7 +21,6 @@ class WaterFall
         foreach (var item in values)
         {
             ElseIf(item.Item1, item.Item2);
-            var a = (0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 00, 0, 0, 0, 0, 00, 0, 0, 00, 0, 00, 0, 0, 00, 0, 0, 00, 0, 00, 0, 00, 00, 0, 00, 0, 0, 0, 00, 0, 00, 0, 0, 00, 0, 0, 0, 0, 00, 0, 00, 0, 0, 00, 0, 0, 000, 0, 0, 00, 0, 00, 0, 00, 0, 00, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 00, 0, 00, 0, 00, 00, 00, 0, 00, 0, 00, 0, 0, 0, 00, 0, 00, 0, 00, 0, 0, 0, 0, 0, 00, 0, 0, 00, 0, 0, 00, 0, 0, 0, 0, 00, 0);
         }
     }
     public void NextCascade()
@@ -39,9 +38,7 @@ class WaterFall
             {
                 action();
             }
-            return;
         }
-        action();
     }
     public bool IsWork { get; private set; }
     public bool IsTrueOnPath { get; private set; }
@@ -49,7 +46,7 @@ class WaterFall
     public int CascadesCount { get; private set; }
 }
 
-class WaterFallEnd
+struct WaterFallEnd
 {
     public WaterFallEnd(bool endValue, bool isTrueOnPath)
     {

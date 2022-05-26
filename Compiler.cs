@@ -1,6 +1,11 @@
 static class Compiler
 {
-    public static void Compile(string code)
+    public static void Compile(string name)
+    {
+        var reader = new BinaryReader(File.Open(name, FileMode.Open));
+        CompileCode(new(reader.ReadChars((int)reader.BaseStream.Length)));
+    }
+    public static void CompileCode(string code)
     {
         List<string> expressions = new();
         string currentExpression = "";
@@ -25,6 +30,7 @@ static class Compiler
             }
             if (expression.AsSpan(0, 5) == "print")
             {
+                Console.WriteLine(expression.AsSpan(6).Trim('"').ToArray());
             }
         }
     }

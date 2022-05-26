@@ -19,16 +19,8 @@ class Pocket
 
     public List<Pocket> Pockets { get; }
 }
-class Node
+struct Node
 {
-    public Node(Pocket pocket, int index, IEnumerable<Pocket> links)
-    {
-        Pocket = pocket;
-        Index = index;
-        Links = links;
-    }
-
-    public Pocket Pocket { get; }
-    public int Index { get; }
-    public IEnumerable<Pocket> Links { get; }
+    public Pocket Pocket { get; set; }
+    public IEnumerable<Pocket> Links { get; set; }
 }

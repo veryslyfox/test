@@ -13,6 +13,10 @@ static class Visualizer
     {
         Console.WriteLine(stringProvider.ToString(value));
     }
+    public static void Write<T>(T value, IStringProvider<T, string> stringProvider, string format)
+    {
+        Console.WriteLine(stringProvider.ToString(value, format));
+    }
     public static void Write(char value, int left, int top)
     {
         Console.SetCursorPosition(left, top);

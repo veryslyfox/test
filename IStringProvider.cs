@@ -2,7 +2,7 @@ interface IStringProvider<T>
 {
     public string ToString(T value);
     public static IStringProvider<T> Default => new Standard<T>();
-    private class Standard<TValue> : IStringProvider<TValue>
+    public class Standard<TValue> : IStringProvider<TValue>
     {
         public string ToString(TValue value)
         {

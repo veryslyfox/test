@@ -34,10 +34,15 @@ class CipherStream
     }
     public void Add(byte[] value)
     {
+        Bytes.Add(value);
     }
     public bool Add(int index, byte[] value)
     {
-        if(index < 0 || index >= Bytes.Count)
-        Bytes.Insert(index, value);
+        bool result = index < 0 || index >= Bytes.Count;
+        if (result)
+        {
+            Bytes.Insert(index, value);
+        }
+        return result;
     }
 }

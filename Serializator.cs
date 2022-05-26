@@ -38,19 +38,6 @@ static class Serializator
         }
         return result;
     }
-    public static byte[][] ToBytes(Exception exception)
-    {
-        if (exception == null)
-        {
-            return null;
-        }
-        else
-            return new byte[][]{ToBytes(exception.HelpLink),
-         ToBytes(exception.HResult),
-          ToBytes(exception.Message),
-           ToBytes(exception.Source),
-            ToBytes(exception.StackTrace)}.Union(ToBytes(exception.InnerException)).ToArray();
-    }
     // public static void TryDeserialize(byte[] value, Type? type, out object? result)
     // {
     //     try

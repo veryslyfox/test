@@ -4,7 +4,8 @@ enum AnimalsTypes
     Cat,
     Fox,
     Mouse,
-    
+    Penguin,
+    Owl,
 }
 class Zoo : INameable
 {

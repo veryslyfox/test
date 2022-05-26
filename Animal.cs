@@ -1,7 +1,7 @@
 #pragma warning disable 
 namespace Animals;
 
-abstract class Animal : INameable, ISizable, IEquatable<Animal>, IClaimer
+abstract class Animal : INameable, ISizable, IEquatable<Animal>
 {
     public Animal(string name)
     {

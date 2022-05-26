@@ -14,9 +14,12 @@ sealed class CopyAttribute : Attribute
     public static class ActiveCopy
     {
 
-        public static void OnCopy(Assembly assembly, ReflectData reflectData)
+        public static void OnCopy(Assembly assembly)
         {
-            var types = assembly.GetTypes().Where((Type type) => type.GetCustomAttributes(typeof(CopyAttribute)) is not null);
+            foreach (var type in assembly.GetTypes())
+            {
+                Pocket pocket = new Pocket();
+            }
         }
     }
 }
