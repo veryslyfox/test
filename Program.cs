@@ -1,27 +1,7 @@
 #pragma warning disable
-global using System;
-global using System.Collections.Generic;
 global using System.Linq;
-global using System.Reflection;
-using System.Security.Cryptography;
-using System.Diagnostics;
-using Animals;
-using System.Dynamic;
-using Graphic;
-using System.Threading;
-using System.Text;
-using System.Net.Sockets;
-using System.Collections.Generic;
-using MyMath;
-using System.Security.Cryptography.X509Certificates;
-using System.Linq.Expressions;
-using System.Globalization;
-using System.Runtime.Serialization;
-using System.Desecurity;
-using System.Buffers.Binary;
-using System.Xml;
-using System.Runtime.CompilerServices;
-using System.Collections;
+using static System.Console;
+using static StrangeSymbolCollection;
 delegate TResult FuncOut<TValue, TResult, TOut>(TValue value, out TOut result);
 /*323170060713110073007148766886699519604441026697
 1548403213034542752465513886789089319720141152291346368871796092
@@ -39,6 +19,7 @@ static partial class Program
     {
         try
         {
+            
         }
         catch (Exception exception) { Console.Error.WriteLine(exception.GetExceptionValue()); }
         finally { Console.ReadKey(); }

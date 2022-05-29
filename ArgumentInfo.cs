@@ -72,7 +72,7 @@ class ArgumentInfo : IEquatable<ArgumentInfo>
     {
         get => $"{Type} {Name}";
     }
-    public ArgumentInfo? TryParse(string s)
+    public ArgumentInfo? TryParse(string s) 
     {
         return null;
     }

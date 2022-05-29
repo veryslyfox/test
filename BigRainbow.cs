@@ -1,14 +1,4 @@
 namespace Graphic;
-// w(x)= 
-// n=0
-// ∑
-// ∞
-// ​
-//  b 
-// n
-//  cos(a 
-// n
-//  πππππππππππππππππππππππππππππππππππππππππππππππππππππππππππππππππππππππππππππππππππππππππππππππππππππππx
 static partial class Color
 {
     public static void BigRainbow()

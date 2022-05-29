@@ -59,24 +59,48 @@ static partial class MathHigh
         {
             return Pow(x, y);
         }
-        var result = x;
-        for (int i = 0; i < y - 1; i++)
+        if (y == 1)
         {
-            result = Hyper(result, y, rank - 1);
+            return x;
         }
-        return result;
+        return Hyper(x, Hyper(x, y - 1, rank), rank - 1);
     }
-    /*
-    public static BigInteger PowQuick(BigInteger a, BigInteger b)
+    public static BigInteger KnutArrow(BigInteger a, BigInteger b, int n)
     {
-        if (b == 2)
+        Hyper(a, b, n + 2);
+    }
+    public static BigInteger Factorial(BigInteger input)
+    {
+        BigInteger accumulator = new BigInteger(1);
+        for (BigInteger i = 0; i < input; i++)
         {
-            return a * a;
+            accumulator *= i;
         }
-        for (int count = 0; count < BigInteger.Log10(b); count++)
+        return accumulator;
+    }
+    public static BigInteger ConwayArrow(params BigInteger[] integers)
+    {
+        return Conway(integers);
+    }
+    public static BigInteger Conway(BigInteger[] integers)
+    {
+        var search = integers.Search(1);
+        if (search != -1)
         {
-            
+            return Conway(integers.AsSpan(0, search).ToArray());
+        }
+        if (search == -1)
+        {
+            return ConwayArrow(integers.ToArray().AsSpan(..1).ToArray());
+        }
+        else if (integers.Count() == 3)
+        {
+            return KnutArrow(integers[0], integers[1], ((int)integers[2]));
+        }
+        else
+        {
+            return ConwayArrow(new BigInteger[] { integers[0], integers[1] });
         }
     }
-    */
+
 }

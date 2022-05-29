@@ -1,3 +1,4 @@
+using System.Reflection;
 [Copy("Copy")]
 sealed class CopyAttribute : Attribute
 {

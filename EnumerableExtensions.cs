@@ -97,6 +97,29 @@ static class Extensions
         }
         return false;
     }
+    public static int Search<T>(this IEnumerable<T> values, T element)
+    {
+        for (int i = 0; i < values.Count(); i++)
+        {
+            if (Equals(element, values.ToArray()[i]))
+            {
+                return i;
+            }
+        }
+        return -1;
+    }
+    public static int[] SearchAll<T>(this IEnumerable<T> values, T element)
+    {
+        var result = new List<int> { };
+        for (int i = 0; i < values.Count(); i++)
+        {
+            if (Equals(element, values.ToArray()[i]))
+            {
+                result.Add(i);
+            }
+        }
+        return result.ToArray();
+    }
 }
 enum AlphabetValue
 {
