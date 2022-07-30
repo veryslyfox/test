@@ -1,8 +1,10 @@
 #pragma warning disable
 global using System.Linq;
+global using System.Diagnostics;
 using static System.Console;
 using static StrangeSymbolCollection;
-delegate TResult FuncOut<TValue, TResult, TOut>(TValue value, out TOut result);
+using static FactorialOperations;
+using System.Numerics;
 /*323170060713110073007148766886699519604441026697
 1548403213034542752465513886789089319720141152291346368871796092
 189801949411955915049092109508815238644828312063
@@ -23,6 +25,65 @@ static partial class Program
         }
         catch (Exception exception) { Console.Error.WriteLine(exception.GetExceptionValue()); }
         finally { Console.ReadKey(); }
+    }
+
+    private static void BigNumbersPrint(int a, int b)
+    {
+        BigInteger p = a;
+        BigInteger q = p;
+        BigInteger r = q;
+        BigInteger t = r;
+        BigInteger n = t;
+        BigInteger k = n;
+        BigInteger c = k;
+        BigInteger m = c;
+        BigInteger l = m;
+        BigInteger j = l;
+        BigInteger s = j;
+        for (int i = 0; i < b; i++)
+        {
+            (p, q, r, t, n, k, c, m, j, s)
+             = (p * j / 2 + q + r * l * 3 + t * n + k * k * c + m * q * l, p * j * s * 3 + q
+            / 2 + r + t + n * p * m + k * c * 3 + l * p * s,
+             p * j + q * r + t * 2 + n / 2 + k * s, p + q * s + r * s * s + t * n * c * 4 + k,
+              n * q * m * 2 + p * r + t * k * c,
+             p + q * q + r * r * r * c + t * t + n * m + l * l / 2 + k * k *
+             k / 3, c * c * m, p * q * r + t * c * n + k * k * m + l * q * j + s * p * q,
+              j * j + p * c, s * s + q + r + p * j * c + t * t * q);
+            Console.WriteLine(p);
+        }
+    }
+    static void Test(out TimeSpan span)
+    {
+        var counter = 0;
+        var stopwatch = Stopwatch.StartNew();
+        for (int i = 0; i < 1000; i++)
+        {
+            counter++;
+            WriteLine(counter);
+            SetCursorPosition(0, 0);
+        }
+        span = stopwatch.Elapsed;
+    }
+    static BigInteger CollatzConvert(BigInteger integer)
+    {
+        var a = integer % 2 == 0;
+        if (a)
+        {
+            return integer / 2;
+        }
+        else
+        {
+            return 3 * integer + 1;
+        }
+    }
+    static BigInteger GetBig(int n)
+    {
+        if (n == 0)
+        {
+            return 7;
+        }
+        return (GetBig(n - 1) << 17) + MathHigh.Pow(GetBig(n - 1), 17);
     }
     static void MathFocus3()
     {
@@ -47,7 +108,7 @@ static partial class Program
     {
         return exception.InnerException == null ? exception : exception.InnerException.GetExceptionValue();
     }
-    public static Exception[] GetExceptionChain(this Exception exception)
+    public static IReadOnlyList<Exception> GetExceptionChain(this Exception exception)
     {
         var exceptions = new List<Exception>();
         var currentException = exception;
@@ -56,6 +117,27 @@ static partial class Program
             currentException = currentException.InnerException;
             exceptions.Add(currentException);
         }
-        return exceptions.ToArray();
+        return exceptions;
     }
 }
+/*(3) nose = 3 head = 3 (2)
+(2, 2) nose = 2 head = 2, 2
+(2, 1)
+(2, 1, 2, 1, 2, 1) nose = 1 head = 1
+(0)
+*4(2, 1, 2, 1, 2, 0, 0, 0, 0)
+*5(2, 1, 2, 1, 2, 0, 0, 0)           
+*6(2, 1, 2, 1, 2, 0, 0)
+*7(2, 1, 2, 1, 2, 0)
+*8(2, 1, 2, 1, 2) nose = 2 head = 2
+*9(2, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1) nose = 1 head = 1, 1, 1, 1, 1, 1, 1, 1
+(2, 1, 2, 1, 1, 1, 1, 1, 1, 1, 0, 2, 1, 2, 1, 1, 1, 1, 1, 1, 1, 0, 2, 1, 2, 1, 1, 1, 1, 1, 1, 1, 0, 2, 1, 2, 1, 1, 1, 1, 1, 1, 1, 0, 2, 1, 2, 1, 1, 1, 1, 1, 1, 1, 0, 2, 1, 2, 1, 1, 1, 1, 1, 1, 1, 0, 2, 1, 2, 1, 1, 1, 1, 1, 1, 1, 0, 2, 1, 2, 1, 1, 1, 1, 1, 1, 1, 0)
+*11
+(2, 1, 2, 1, 1, 1, 1, 1, 1, 1, 0, 2, 1, 2, 1, 1, 1, 1, 1, 1, 1, 0, 2, 1, 2, 1, 1, 1, 1, 1, 1, 1, 0, 2, 1, 2, 1, 1, 1, 1, 1, 1, 1, 0, 2, 1, 2, 1, 1, 1, 1, 1, 1, 1, 0, 2, 1, 2, 1, 1, 1, 1, 1, 1, 1, 0, 2, 1, 2, 1, 1, 1, 1, 1, 1, 1, 0, 2, 1, 2, 1, 1, 1, 1, 1, 1, 1)
+*12
+(2, 1, 2, 1, 1, 1, 1, 1, 1, 1, 0, 2, 1, 2, 1, 1, 1, 1, 1, 1, 1, 0, 2, 1, 2, 1, 1, 1, 1, 1, 1, 1, 0, 2, 1, 2, 1, 1, 1, 1, 1, 1, 1, 0, 2, 1, 2, 1, 1, 1, 1, 1, 1, 1, 0, 2, 1, 2, 1, 1, 1, 1, 1, 1, 1, 0, 2, 1, 2, 1, 1, 1, 1, 1, 1, 1, 0, 2, 1, 2, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0)
+*13
+(2, 1, 2, 1, 1, 1, 1, 1, 1, 1, 0, 2, 1, 2, 1, 1, 1, 1, 1, 1, 1, 0, 2, 1, 2, 1, 1, 1, 1, 1, 1, 1, 0, 2, 1, 2, 1, 1, 1, 1, 1, 1, 1, 0, 2, 1, 2, 1, 1, 1, 1, 1, 1, 1, 0, 2, 1, 2, 1, 1, 1, 1, 1, 1, 1, 0, 2, 1, 2, 1, 1, 1, 1, 1, 1, 1, 0, 2, 1, 2, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1)
+*14
+(2, 1, 2, 1, 1, 1, 1, 1, 1, 1, 0, 2, 1, 2, 1, 1, 1, 1, 1, 1, 1, 0, 2, 1, 2, 1, 1, 1, 1, 1, 1, 1, 0, 2, 1, 2, 1, 1, 1, 1, 1, 1, 1, 0, 2, 1, 2, 1, 1, 1, 1, 1, 1, 1, 0, 2, 1, 2, 1, 1, 1, 1, 1, 1, 1, 0, 2, 1, 2, 1, 1, 1, 1, 1, 1, 1, 0, 2, 1, 2, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0)
+^*/
