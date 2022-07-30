@@ -1,4 +1,3 @@
-//→↑ ∨,∧,¬,→,↔,∃,∃!,∀,(,),=,≠,∈,∉,{,},⊆,⊂,∪,∩ ø √
 static class StrangeSymbolCollection
 {
     public const char RightArrow = '→';
@@ -7,5 +6,5 @@ static class StrangeSymbolCollection
     public const char Sum = '∑';
     public const char Infinity = '∞';
     public const char Pi = 'π';
-    public const string All = "→↑ℵ∑∞π";
+    public const string All = "→↑ℵ∑∞π↑ ∨,∧,¬,→,↔,∃,∀,(,),=,≠,∈,∉,{,},⊆,⊂,∪,∩ ø √בεζφψΩω";
 }

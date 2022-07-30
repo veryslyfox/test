@@ -1,6 +1,7 @@
+using System.Collections;
 static class Enumerator
 {
-    public static IEnumerator<T> GetEnumerator<T>(this IEnumerator<T> enumerator)
+    public static IEnumerator GetEnumerator<T>(this IEnumerator enumerator)
     {
         return enumerator;
     }

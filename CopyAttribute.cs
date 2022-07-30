@@ -17,9 +17,9 @@ sealed class CopyAttribute : Attribute
 
         public static void OnCopy(Assembly assembly)
         {
-            foreach (var type in assembly.GetTypes())
+            foreach (var file in assembly.GetFiles())
             {
-                Pocket pocket = new Pocket();
+                
             }
         }
     }

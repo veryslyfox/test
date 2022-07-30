@@ -42,9 +42,6 @@ class Formatter : IFormatProvider
         {
             return "отформатируйте с запятой";
         }
-        else
-        {
-            return "не знаю";
-        }
+        return "не знаю";
     }
 }

@@ -67,7 +67,7 @@ static partial class MathHigh
     }
     public static BigInteger KnutArrow(BigInteger a, BigInteger b, int n)
     {
-        Hyper(a, b, n + 2);
+        return Hyper(a, b, n + 2);
     }
     public static BigInteger Factorial(BigInteger input)
     {

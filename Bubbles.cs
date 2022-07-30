@@ -75,10 +75,10 @@ static class Bubbles
     }
     static void ProcessInput()
     {
-        switch (Console.ReadKey().Key)
-        {
+        //switch (Console.ReadKey().Key)
+        //{
 
-        }
+        //}
     }
     static void ProcessLogic()
     {

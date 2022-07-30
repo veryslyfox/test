@@ -1,12 +1,14 @@
 interface IStringProvider<T>
 {
-    public string ToString(T value);
+    public string? ToString(T value);
     public static IStringProvider<T> Default => new Standard<T>();
     public class Standard<TValue> : IStringProvider<TValue>
     {
-        public string ToString(TValue value)
+        public string? ToString(TValue value)
         {
+#pragma warning disable
             return value.ToString();
+#pragma warning restore
         }
     }
 }

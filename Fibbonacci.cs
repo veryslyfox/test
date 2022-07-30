@@ -1,5 +1,5 @@
 #pragma warning disable
-class Fibonacci : IClaimer
+class Fibonacci
 {
     public long _base1;
     public long _base2;

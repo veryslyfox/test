@@ -17,5 +17,6 @@ static partial class TypeOperations
     }
     public static void TypeAttributeActive(Type? type)
     {
+        
     }
 }
