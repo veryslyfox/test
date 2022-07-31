@@ -3,117 +3,96 @@ static class Fractals
 {
     public static DotArray JuliaSetCoordinates(Complex c, int x, int y)
     {
-        var coordinates = new DotArray();
+        var coordinates = new DotArray(x, y);
         for (int j = 0; j < y - 1; j++)
         {
             for (int i = 0; i < x - 1; i++)
             {
-                Complex SquareIter(int value, Complex start)
-                {
-                    if (value > 0)
-                    {
-                        return SquareIter(value - 1, start) * SquareIter(value - 1, start) + c;
-                    }
-                    else
-                    {
-                        return start;
-                    }
-                }
+                var start = new Complex(i, j);
                 var maxCount = 0;
-                for (int k = 0; k < 10; i++)
+                for (int k = 31; k > 0; k--)
                 {
-                    Complex start = new Complex(i, j);
-                    if (SquareIter(k + 1, start) <= SquareIter(k, start))
+                    var a = SquareIter(k + 1, start);
+                    var b = SquareIter(k, start);
+                    if (a <= b)
                     {
-                        maxCount++;
+                        break;
                     }
+
+                    maxCount++;
                 }
-                if (maxCount < 5)
+
+                //Console.WriteLine(maxCount);
+
+                if (maxCount < 26)
                 {
-                    coordinates.Add((i * x / 3, i * y / 3));
+                    coordinates.Add(i, j);
                 }
             }
         }
         return coordinates;
+
+        Complex SquareIter(int value, Complex start)
+        {
+            if (value > 0)
+            {
+                var a = SquareIter(value - 1, start);
+                return a * a * 2 + c;
+            }
+            else
+            {
+                return start;
+            }
+        }
     }
-    public static void FractalVisualize(DotArray mains, (int, int) main)
+    public static void FractalVisualize(List<(int, int)> mains, int mainX, int mainY, char symbol)
     {
         var rng = new Random();
         var dotArray = mains;
-        var current = main;
+        var currentX = mainX;
+        var currentY = mainY;
         while (true)
         {
-            dotArray.Add(current);
-            var randomMain = dotArray[]
+            dotArray.Add((currentX, currentY));
+            var number = rng.Next(mains.Count);
+            var randomMain = mains[number];
+            mains[number] = (mainX / 2 + randomMain.Item1 / 2, mainY / 2 + randomMain.Item2/ 2);
+            Console.SetCursorPosition(currentX, currentY);
+            Console.WriteLine(symbol);
         }
     }
 }
 class DotArray
 {
-    public DotArray() : this(new List<(int, int)>())
+    public DotArray(int sizeX, int sizeY)
     {
-
+        DotCoordinates = new bool[sizeX, sizeY];
     }
-    public DotArray(List<(int, int)> dotCoordinates)
+    public DotArray(bool[,] dotCoordinates)
     {
         DotCoordinates = dotCoordinates;
     }
-    public DotArray(params (int, int)[] dotCoordinates) : this(dotCoordinates.ToList())
-    {
-
-    }
-    public bool[,] AsFlags()
-    {
-        var maxX = int.MinValue;
-        for (int i = 0; i < DotCoordinates.Count; i++)
-        {
-            maxX = Math.Min(maxX, DotCoordinates[i].Item1);
-        }
-        var maxY = int.MinValue;
-        for (int i = 0; i < DotCoordinates.Count; i++)
-        {
-            maxY = Math.Min(maxY, DotCoordinates[i].Item2);
-        }
-        bool[,] result = new bool[maxX + 1, maxY + 1];
-        for (int row = 0; row < maxY + 1; row++)
-        {
-            for (int column = 0; column < maxX + 1; column++)
-            {
-                result[column, row] = DotCoordinates.Contains((row, column));
-            }
-        }
-        return result;
-    }
     public void Visualize(char full, char empty)
     {
-        var flags = AsFlags();
-        for (int row = 0; row < flags.GetLength(1); row++)
+        var coordinates = DotCoordinates;
+        for (int row = 0; row < coordinates.GetLength(1); row++)
         {
-            for (int column = 0; column < flags.GetLength(0); column++)
+            for (int column = 0; column < coordinates.GetLength(0); column++)
             {
-                var writeSymbol = flags[column, row] ? full : empty;
+                var writeSymbol = coordinates[column, row] ? full : empty;
                 Console.Write(writeSymbol);
             }
             Console.WriteLine();
         }
     }
-    public List<(int, int)> DotCoordinates { get; set; }
-    public bool[,] Flags
-    {
-        get => AsFlags();
-    }
+    public bool[,] DotCoordinates { get; set; }
     public bool this[int column, int row]
     {
-        get => Flags[column, row];
-        set => Flags[column, row] = value;
+        get => DotCoordinates[column, row];
+        set => DotCoordinates[column, row] = value;
     }
-    public (int, int) this[int index]
+    public void Add(int x, int y)
     {
-        get => DotCoordinates[index];
-        set => DotCoordinates[index] = value;
-    }
-    public void Add((int, int) complex)
-    {
-        DotCoordinates.Add(complex);
+        DotCoordinates[x, y] = true;
     }
 }

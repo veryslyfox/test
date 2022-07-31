@@ -21,7 +21,9 @@ static partial class Program
     {
         try
         {
-            
+            var array = Fractals.FractalVisualize(new(0, 0), 50, 50);
+            array.Visualize('#', ' ');
+            SetCursorPosition(0, 0);
         }
         catch (Exception exception) { Console.Error.WriteLine(exception.GetExceptionValue()); }
         finally { Console.ReadKey(); }
@@ -106,7 +108,7 @@ static partial class Program
     }
     public static Exception GetExceptionValue(this Exception exception)
     {
-        return exception.InnerException == null ? exception : exception.InnerException.GetExceptionValue();
+        return exception.InnerException?.GetExceptionValue() ?? exception;
     }
     public static IReadOnlyList<Exception> GetExceptionChain(this Exception exception)
     {
