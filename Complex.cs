@@ -12,16 +12,16 @@ class Complex : IEquatable<Complex>
         get => -MaxValue;
     }
     protected double _real;
-    protected double _imargimanary;
+    protected double _imaginary;
     public Complex()
     {
         _real = 0;
-        _imargimanary = 0;
+        _imaginary = 0;
     }
     public Complex(double real, double imargimanary)
     {
         _real = real;
-        _imargimanary = imargimanary;
+        _imaginary = imargimanary;
     }
     public static Complex operator +(Complex a, Complex b)
     {
@@ -84,10 +84,10 @@ class Complex : IEquatable<Complex>
     }
     public double Imargimanary
     {
-        get => _imargimanary;
+        get => _imaginary;
         set
         {
-            _imargimanary = value;
+            _imaginary = value;
         }
     }
     public override string ToString()
@@ -98,7 +98,7 @@ class Complex : IEquatable<Complex>
     {
         get => Math.Sqrt(Real * Real + Imargimanary * Imargimanary);
     }
-    public override int GetHashCode() => (int)(Math.Pow(_real * _imargimanary, 4) % (double)int.MaxValue);
+    public override int GetHashCode() => (int)(Math.Pow(_real * _imaginary, 4) % (double)int.MaxValue);
     public static implicit operator string(Complex complex) => $"{complex.Real} + {complex.Imargimanary}i";
     public static implicit operator Complex((double, double) value) => new(value.Item1, value.Item2);
     public static implicit operator Complex(string s)
