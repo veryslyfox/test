@@ -25,9 +25,11 @@ $$
 ## Droppary primary sepratible array notation
 power = $f_{2\omega}(n)$
 $$
-11. <P>_{a/^d b/^e @/^f c} = <P>_{a/^d b-1/^e @/^f <P>_{a, b, @, c-1}}\\
+11. <P>_{a^d b^e @c^f} = <P>_{a^d b-1^e @ /^f <P>_{a, b, @, c-1}}\\
 $$
 ## Droppary separatible array notation
 $$
-\text{power} = f_{3 \omega}(n)
+power = f_{3 \omega}(n)\\
+<P>_{a/b} = <P>_{\underbrace{a,a,a...a}_b}\\
+<P>_{a/b}
 $$

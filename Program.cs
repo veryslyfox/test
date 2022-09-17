@@ -21,9 +21,18 @@ static partial class Program
     {
         try
         {
-            var array = Fractals.FractalVisualize(new(0, 0), 50, 50);
-            array.Visualize('#', ' ');
-            SetCursorPosition(0, 0);
+            Stopwatch stopwatch = Stopwatch.StartNew();
+            var startTime = new TimeSpan(Stopwatch.GetTimestamp());
+            Console.CursorVisible = false;
+            while (true)
+            {
+                var span = stopwatch.Elapsed;
+                var hours = span.Hours;
+                var minutes = span.Minutes;
+                var seconds = span.Seconds;
+                Console.WriteLine($"{hours}:{minutes}:{seconds}");
+                Console.SetCursorPosition(0, 0);
+            }
         }
         catch (Exception exception) { Console.Error.WriteLine(exception.GetExceptionValue()); }
         finally { Console.ReadKey(); }

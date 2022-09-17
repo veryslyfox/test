@@ -2,7 +2,6 @@ using System.Reflection;
 #pragma warning disable 
 class ReflectData
 {
-    public ReflectData() { }
     public ReflectData(Type type)
     {
         Fields = type.GetFields();
