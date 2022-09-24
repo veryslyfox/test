@@ -21,18 +21,7 @@ static partial class Program
     {
         try
         {
-            Stopwatch stopwatch = Stopwatch.StartNew();
-            var startTime = new TimeSpan(Stopwatch.GetTimestamp());
-            Console.CursorVisible = false;
-            while (true)
-            {
-                var span = stopwatch.Elapsed;
-                var hours = span.Hours;
-                var minutes = span.Minutes;
-                var seconds = span.Seconds;
-                Console.WriteLine($"{hours}:{minutes}:{seconds}");
-                Console.SetCursorPosition(0, 0);
-            }
+            BigNumbersPrint(1, 1);
         }
         catch (Exception exception) { Console.Error.WriteLine(exception.GetExceptionValue()); }
         finally { Console.ReadKey(); }

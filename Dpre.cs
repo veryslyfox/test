@@ -17,7 +17,7 @@ class DpreData
 }
 interface IDpreReflector
 {
-    public void ReflectionPrivate(byte[] data, Assembly assembly, TypeSelector)
+    public void ReflectionPrivate(byte[] data, Assembly assembly, TypeSelector selector)
     {
 
     }
