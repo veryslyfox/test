@@ -2,7 +2,7 @@ using System.Reflection;
 
 class DpreData
 {
-    public DpreData(TypeSelector inPrivate, TypeSelector outPrivate, byte[] data, bool isDataFileName, IDpreReflector? dpreReflector)
+    public DpreData(TypeSelector inPrivate, TypeSelector outPrivate, byte[] data, bool isDataFileName, IDpreReflector? dpreReflector, object? key = null)
     {
         InPrivate = inPrivate;
         OutPrivate = outPrivate;
@@ -17,10 +17,7 @@ class DpreData
 }
 interface IDpreReflector
 {
-    public void ReflectionPrivate(byte[] data, Assembly assembly, TypeSelector selector)
-    {
-
-    }
+    public void ReflectionPrivate(byte[] data, Assembly assembly, TypeSelector selector);
 }
 class TypeSelector
 {

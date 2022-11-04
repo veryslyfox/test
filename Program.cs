@@ -19,34 +19,41 @@ static partial class Program
 {
     static void Main()
     {
-        
+        var array = new int[]{};
+        Algorithms.QuickSort(array);
+        foreach (var item in array)
+        {
+            Console.Write(item.ToString() + ", ");
+        }
+        Console.ReadKey();
     }
+
 
     private static void Factorization(int arg)
     {
-        
+
         Console.Write(arg.ToString() + " = ");
         var d = 2;
-        A:;
-            if (arg == 1)
+    A:;
+        if (arg == 1)
+        {
+            goto B;
+        }
+        if (arg % d == 0)
+        {
+            arg = arg / d;
+            Console.Write(d);
+            if (arg != 1)
             {
-                goto B;
+                Console.Write(" * ");
             }
-            if (arg % d == 0)
-            {
-                arg = arg / d;
-                Console.Write(d);
-                if (arg != 1)
-                {
-                    Console.Write(" * ");
-                }
-            }
-            else
-            {
-                d++;
-            }
-            goto A;
-        B:;
+        }
+        else
+        {
+            d++;
+        }
+        goto A;
+    B:;
     }
 
     private static void BigNumbersPrint(int a, int b)

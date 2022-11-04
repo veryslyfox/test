@@ -4,6 +4,9 @@ sealed class CopyAttribute : Attribute
 {
     public CopyAttribute()
     {
+        #pragma warning disable 
+        ActiveCopy.OnCopy(Assembly.GetAssembly(typeof(Program)));
+        #pragma warning restore
         FileName = "AttributeCopyFile.cs";
     }
     public CopyAttribute(string fileName)
@@ -17,9 +20,14 @@ sealed class CopyAttribute : Attribute
 
         public static void OnCopy(Assembly assembly)
         {
-            foreach (var file in assembly.GetFiles())
+            foreach (var type in assembly.GetTypes())
             {
-                
+                var attribute = type.GetCustomAttribute<CopyAttribute>();
+                if (attribute == null)
+                {
+                    continue;
+                }
+
             }
         }
     }
