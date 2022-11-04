@@ -19,12 +19,34 @@ static partial class Program
 {
     static void Main()
     {
-        try
-        {
-            BigNumbersPrint(1, 1);
-        }
-        catch (Exception exception) { Console.Error.WriteLine(exception.GetExceptionValue()); }
-        finally { Console.ReadKey(); }
+        
+    }
+
+    private static void Factorization(int arg)
+    {
+        
+        Console.Write(arg.ToString() + " = ");
+        var d = 2;
+        A:;
+            if (arg == 1)
+            {
+                goto B;
+            }
+            if (arg % d == 0)
+            {
+                arg = arg / d;
+                Console.Write(d);
+                if (arg != 1)
+                {
+                    Console.Write(" * ");
+                }
+            }
+            else
+            {
+                d++;
+            }
+            goto A;
+        B:;
     }
 
     private static void BigNumbersPrint(int a, int b)
