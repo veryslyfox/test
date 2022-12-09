@@ -80,7 +80,7 @@ class SpecialInteger
         }
         if (form1 == DigitForm.NegativeInfinity && form2 == DigitForm.NegativeInfinity)
         {
-            return new(DigitForm.NegativeInfinity);
+            return new(DigitForm.PositiveInfinity);
         }
         if (form1 == DigitForm.PositiveInfinity && form2 == DigitForm.NegativeInfinity)
         {

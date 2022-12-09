@@ -61,8 +61,22 @@ static class Algorithms
     {
         QuickSort(array.ToList());
     }
-    public static int Caratcube(int a, int b)
+    public static long Mul(int first, int second)
     {
-
+        var dc = (int)Math.Floor(Math.Log2(first)); // Digit Count(DC)
+        if (dc == 1)
+        {
+            return first * second;
+        }
+        var sqrt = Math.Pow(2, dc / 2);
+        var a = first / dc;
+        var b = first % dc;
+        var c = second / dc;
+        var d = second % dc;
+        var etape1 = Mul(a, c);
+        var etape2 = Mul(b, d);
+        var etape3 = Mul(a + b, c + d);
+        var etape4 = etape3 - etape2 - etape1;
+        return (etape1 << (dc)) + (etape4 << dc / 2) + etape2;
     }
 }

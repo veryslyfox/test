@@ -1,9 +1,6 @@
 #pragma warning disable
 global using System.Linq;
-global using System.Diagnostics;
 using static System.Console;
-using static StrangeSymbolCollection;
-using static FactorialOperations;
 using System.Numerics;
 /*323170060713110073007148766886699519604441026697
 1548403213034542752465513886789089319720141152291346368871796092
@@ -19,16 +16,14 @@ static partial class Program
 {
     static void Main()
     {
-        var array = new int[]{};
-        Algorithms.QuickSort(array);
-        foreach (var item in array)
-        {
-            Console.Write(item.ToString() + ", ");
-        }
-        Console.ReadKey();
+        Animals.Zoo zoo = new Animals.Zoo("Mocsow Zoo");
+        zoo.Add(new Animals.Fox(""));
     }
-
-
+    static bool[,] Grid(int n)
+    {
+        var result = new bool[n, n];
+        return result;
+    }
     private static void Factorization(int arg)
     {
 
@@ -81,18 +76,6 @@ static partial class Program
               j * j + p * c, s * s + q + r + p * j * c + t * t * q);
             Console.WriteLine(p);
         }
-    }
-    static void Test(out TimeSpan span)
-    {
-        var counter = 0;
-        var stopwatch = Stopwatch.StartNew();
-        for (int i = 0; i < 1000; i++)
-        {
-            counter++;
-            WriteLine(counter);
-            SetCursorPosition(0, 0);
-        }
-        span = stopwatch.Elapsed;
     }
     static BigInteger CollatzConvert(BigInteger integer)
     {
