@@ -68,7 +68,6 @@ class SerializeException : Exception
     public SerializeException(string message, Exception innerException, object value)
     : base(message, innerException)
     {
-        new SerializeException("abc", new Exception(), 8);
         IsSerialize = true;
         Value = value;
     }

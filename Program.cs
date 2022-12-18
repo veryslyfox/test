@@ -1,5 +1,6 @@
 #pragma warning disable
 global using System.Linq;
+using Animals;
 using static System.Console;
 using System.Numerics;
 /*323170060713110073007148766886699519604441026697
@@ -16,17 +17,21 @@ static partial class Program
 {
     static void Main()
     {
-        Animals.Zoo zoo = new Animals.Zoo("Mocsow Zoo");
-        zoo.Add(new Animals.Fox(""));
+        Tsr tsr = new Tsr();
+        while (true)
+        {
+            Console.WriteLine(tsr.NextUint());
+        }
+        Console.ReadKey();
     }
     static bool[,] Grid(int n)
     {
         var result = new bool[n, n];
         return result;
     }
-    private static void Factorization(int arg)
+    private static List<int> Factorization(int arg, bool isWriting)
     {
-
+        var result = new List<int>();
         Console.Write(arg.ToString() + " = ");
         var d = 2;
     A:;
@@ -37,7 +42,9 @@ static partial class Program
         if (arg % d == 0)
         {
             arg = arg / d;
-            Console.Write(d);
+
+            if (isWriting)
+                Console.Write(d);
             if (arg != 1)
             {
                 Console.Write(" * ");
@@ -49,8 +56,31 @@ static partial class Program
         }
         goto A;
     B:;
+    return result;
     }
-
+    // private static bool Factorization(int arg, bool isWriting)
+    // {
+    //     bool p = true;
+    //     var result = new List<int>();
+    //     Console.Write(arg.ToString() + " = ");
+    //     var d = 2;
+    // A:;
+    //     if (arg == 1)
+    //     {
+    //         goto B;
+    //     }
+    //     if (arg % d == 0)
+    //     {
+    //         p = false;
+    //     }
+    //     else
+    //     {
+    //         d++;
+    //     }
+    //     goto A;
+    // B:;
+    // return p;
+    // }
     private static void BigNumbersPrint(int a, int b)
     {
         BigInteger p = a;
