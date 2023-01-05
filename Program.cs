@@ -3,6 +3,8 @@ global using System.Linq;
 using Animals;
 using static System.Console;
 using System.Numerics;
+using System.Drawing;
+using System.Text.RegularExpressions;
 /*323170060713110073007148766886699519604441026697
 1548403213034542752465513886789089319720141152291346368871796092
 189801949411955915049092109508815238644828312063
@@ -17,13 +19,162 @@ static partial class Program
 {
     static void Main()
     {
-        Tsr tsr = new Tsr();
-        while (true)
+        try
         {
-            Console.WriteLine(tsr.NextUint());
+            
         }
-        Console.ReadKey();
+        catch (Exception exception)
+        {
+            Console.Error.WriteLine(exception);
+        }
+        finally
+        {
+            Console.ReadKey();
+        }
     }
+    public static Point XYToPolar(Point point)
+    {
+        
+        return new Point(point.X * point.X + point.Y * point.Y, (int)Math.Atan2(point.Y, point.X));
+    }
+    public static Point PolarToXY(Point point)
+    {
+        var radius = point.X;
+        var angle = point.Y;
+        return new Point((int)Math.Cos(angle) * radius, (int)Math.Sin(angle) * radius);
+    }
+    public static Point Roll(Point point, double angle)
+    {
+        var pointPolar = XYToPolar(point);
+        pointPolar.Y += (int)((angle / Math.PI) * 180);
+        return PolarToXY(pointPolar);
+    }
+    private static void TSqNumber(int i)
+    {
+        if (!OneSquareNumber(i) && !TwoSquareNumber(i) && !ThreeSquareNumber(i))
+        {
+            FourSquareNumber(i);
+        }
+    }
+    private static bool ThreeSquareNumber(int i)
+    {
+        bool result = false;
+        var iSqrt = (int)Math.Sqrt(i);
+        var count = 0;
+        var isBreaking = false;
+        var (av, bv, cv) = (0, 0, 0);
+        for (int a = 1; a < iSqrt; a++)
+        {
+            for (int b = 1; b < iSqrt; b++)
+            {
+                for (int c = 1; c < iSqrt; c++)
+                {
+                    if (a * a + b * b + c * c == i)
+                    {
+                        av = a;
+                        bv = b;
+                        cv = c;
+                        isBreaking = true;
+                        result = true;
+                        break;
+                    }
+                }
+                if (isBreaking)
+                {
+                    break;
+                }
+            }
+            if (isBreaking)
+            {
+                break;
+            }
+        }
+        return result;
+    }
+    private static bool OneSquareNumber(int i)
+    {
+        var iSqrt = Math.Sqrt(i);
+        return Math.Ceiling(iSqrt) == iSqrt;
+    }
+    private static bool TwoSquareNumber(int i)
+    {
+        bool result = false;
+        var iSqrt = (int)Math.Sqrt(i);
+        var count = 0;
+        var isBreaking = false;
+        var (av, bv) = (0, 0);
+        for (int a = 1; a < iSqrt; a++)
+        {
+            for (int b = 1; b < iSqrt; b++)
+            {
+                if (a * a + b * b == i)
+                {
+                    av = a;
+                    bv = b;
+                    isBreaking = true;
+                    result = true;
+                    break;
+                }
+                if (isBreaking)
+                {
+                    break;
+                }
+            }
+            if (isBreaking)
+            {
+                break;
+            }
+        }
+        return result;
+    }
+    private static bool FourSquareNumber(int i)
+    {
+        bool result = false;
+        var iSqrt = (int)Math.Sqrt(i);
+        var count = 0;
+        var isBreaking = false;
+        var (av, bv, cv, dv) = (0, 0, 0, 0);
+        for (int a = 1; a < iSqrt; a++)
+        {
+            for (int b = 1; b < iSqrt; b++)
+            {
+                for (int c = 1; c < iSqrt; c++)
+                {
+                    for (int d = 1; d < iSqrt; d++)
+                    {
+                        if (a * a + b * b + c * c + d * d == i)
+                        {
+                            av = a;
+                            bv = b;
+                            cv = c;
+                            dv = d;
+                            isBreaking = true;
+                            result = true;
+                            break;
+                        }
+                    }
+                    if (isBreaking)
+                    {
+                        break;
+                    }
+                }
+                if (isBreaking)
+                {
+                    break;
+                }
+            }
+            if (isBreaking)
+            {
+                break;
+            }
+        }
+        if (!(av == 0 && bv == 0 && cv == 0 && dv == 0))
+        {
+            Console.WriteLine($"{i} = {av} ^ 2 + {bv} ^ 2 + {cv} ^ 2 + {dv} ^ 2");
+        }
+        return result;
+    }
+
     static bool[,] Grid(int n)
     {
         var result = new bool[n, n];
@@ -32,7 +183,8 @@ static partial class Program
     private static List<int> Factorization(int arg, bool isWriting)
     {
         var result = new List<int>();
-        Console.Write(arg.ToString() + " = ");
+        if (isWriting)
+            Console.Write(arg.ToString() + " = ");
         var d = 2;
     A:;
         if (arg == 1)
@@ -42,12 +194,14 @@ static partial class Program
         if (arg % d == 0)
         {
             arg = arg / d;
-
+            result.Add(d);
             if (isWriting)
-                Console.Write(d);
-            if (arg != 1)
             {
-                Console.Write(" * ");
+                Console.Write(d);
+                if (arg != 1)
+                {
+                    Console.Write(" * ");
+                }
             }
         }
         else
@@ -56,31 +210,8 @@ static partial class Program
         }
         goto A;
     B:;
-    return result;
+        return result;
     }
-    // private static bool Factorization(int arg, bool isWriting)
-    // {
-    //     bool p = true;
-    //     var result = new List<int>();
-    //     Console.Write(arg.ToString() + " = ");
-    //     var d = 2;
-    // A:;
-    //     if (arg == 1)
-    //     {
-    //         goto B;
-    //     }
-    //     if (arg % d == 0)
-    //     {
-    //         p = false;
-    //     }
-    //     else
-    //     {
-    //         d++;
-    //     }
-    //     goto A;
-    // B:;
-    // return p;
-    // }
     private static void BigNumbersPrint(int a, int b)
     {
         BigInteger p = a;

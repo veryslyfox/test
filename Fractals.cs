@@ -1,7 +1,7 @@
 using MyMath;
 static class Fractals
 {
-    public static DotArray JuliaSetCoordinates(Complex c, int x, int y)
+    public static DotArray JuliaSetCoordinates(Complex c, int x, int y, int kMax = 31, int maxCountMax = 26)
     {
         var coordinates = new DotArray(x, y);
         for (int j = 0; j < y - 1; j++)
@@ -10,7 +10,7 @@ static class Fractals
             {
                 var start = new Complex(i, j);
                 var maxCount = 0;
-                for (int k = 31; k > 0; k--)
+                for (int k = kMax; k > 0; k--)
                 {
                     var a = SquareIter(k + 1, start);
                     var b = SquareIter(k, start);
@@ -24,7 +24,7 @@ static class Fractals
 
                 //Console.WriteLine(maxCount);
 
-                if (maxCount < 26)
+                if (maxCount < maxCountMax)
                 {
                     coordinates.Add(i, j);
                 }

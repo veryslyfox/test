@@ -18,7 +18,7 @@ class Owl : Bird
         {
             if (i - 1 != uh)
             {
-                Console.WriteLine("ух - ");
+                Console.Write("ух - ");
             }
             else
             {

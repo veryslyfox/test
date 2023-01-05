@@ -25,7 +25,11 @@ class Curier
             Info = sender[order];
         }
         return equals;
+        
     }
+    public void Add()
+    {
+    } 
     private CurierPublicator CurierPublicator { get; }
     public Order Order { get; private set; }
 }
