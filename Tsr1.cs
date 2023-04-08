@@ -8,7 +8,7 @@ partial class Tsr : IDisposable, IEquatable<Tsr> //(Time Span Random)
         {
             Seed = 255;
         }
-        return (int)(NextByte() * 16777216 + NextByte() * 65536 + NextByte() * 256 + NextByte()) % maxValue;
+        return (NextByte() * 16777216 + NextByte() * 65536 + NextByte() * 256 + NextByte()) % maxValue;
     }
     public int Next(int minValue, int maxValue)
     {

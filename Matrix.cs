@@ -42,6 +42,7 @@ public class Matrix
     }
     public static Matrix GenerateBin(int x, int y)
     {
+        Tsr tsr = new Tsr();
         Random rng = new Random();
         var matrix = Generate(x, y, 0);
         for (int row = 0; row < y; row++)
