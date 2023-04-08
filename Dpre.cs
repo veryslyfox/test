@@ -8,12 +8,16 @@ class DpreData
         OutPrivate = outPrivate;
         Data = data;
         IsDataFileName = isDataFileName;
+        DpreReflector = dpreReflector;
+        Key = key;
     }
 
     public TypeSelector InPrivate { get; }
     public TypeSelector OutPrivate { get; }
     public byte[] Data { get; }
     public bool IsDataFileName { get; }
+    public IDpreReflector? DpreReflector { get; }
+    public object? Key { get; }
 }
 interface IDpreReflector
 {

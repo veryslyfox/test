@@ -27,7 +27,10 @@ sealed class CopyAttribute : Attribute
                 {
                     continue;
                 }
-
+                else
+                {
+            
+                }
             }
         }
     }

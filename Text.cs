@@ -1,13 +1,13 @@
 static partial class Program
 {
-    public static void CSharpGenerate(string text, string name, char[] s)
+    static int[] _weights = new int[100];
+    static int Weight(string s)
     {
-        var digitableString = new byte[text.Length];
-        for (int i = 0; i < text.Length; i++)
-        {
-            digitableString[i] = ((byte)text[i]);
-        }
-        var file = File.Open(name + ".cs", FileMode.OpenOrCreate);   
-        file.Write(new Span<byte>(digitableString));
+        return s.Sum((char c) => _weights[(int)c]);
     }
+    
+}
+interface IText
+{
+    string NextLine();
 }

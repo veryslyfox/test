@@ -21,7 +21,14 @@ static partial class Program
     {
         try
         {
-            
+            var a = Vector.Create(2, 3, 2);
+            var matrix = Matrix.Create(Vector.Create(1, 2, 1),
+            Vector.Create(1, 1, 1),
+            Vector.Create(1, 1, 1)
+            );
+            var c = Matrix.GenerateBin(50, 57);
+            c.Write();
+            Console.ReadLine();
         }
         catch (Exception exception)
         {
@@ -32,22 +39,21 @@ static partial class Program
             Console.ReadKey();
         }
     }
-    public static Point XYToPolar(Point point)
+    public static List<string> GetPermutations(string s)
     {
-        
-        return new Point(point.X * point.X + point.Y * point.Y, (int)Math.Atan2(point.Y, point.X));
-    }
-    public static Point PolarToXY(Point point)
-    {
-        var radius = point.X;
-        var angle = point.Y;
-        return new Point((int)Math.Cos(angle) * radius, (int)Math.Sin(angle) * radius);
-    }
-    public static Point Roll(Point point, double angle)
-    {
-        var pointPolar = XYToPolar(point);
-        pointPolar.Y += (int)((angle / Math.PI) * 180);
-        return PolarToXY(pointPolar);
+        if (s.Length == 1)
+        {
+            return new(new string[] { s });
+        }
+        var result = new List<string>();
+        for (int i = 0; i < s.Length; i++)
+        {
+            var list = s.ToList();
+            var symbol = s[i];
+            list.RemoveAt(i);
+            result.AddRange(GetPermutations(new string(list.ToArray())).Select((string s) => symbol + s));
+        }
+        return result;
     }
     private static void TSqNumber(int i)
     {
@@ -55,7 +61,9 @@ static partial class Program
         {
             FourSquareNumber(i);
         }
+
     }
+
     private static bool ThreeSquareNumber(int i)
     {
         bool result = false;

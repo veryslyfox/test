@@ -79,4 +79,24 @@ static class Algorithms
         var etape4 = etape3 - etape2 - etape1;
         return (etape1 << (dc)) + (etape4 << dc / 2) + etape2;
     }
+    public static void StoogeSort(int[] array, int begin, int end)
+    {
+        if(end - begin == 0)
+        {
+            return;
+        }
+        if (end - begin == 1)
+        {
+            if (array[begin] > array[begin + 1])
+            {
+                (array[begin], array[begin + 1]) = (array[begin + 1], array[begin]);
+            }
+        }
+        else
+        {
+            StoogeSort(array, begin, end * 2 / 3);
+            StoogeSort(array, begin + (end - begin) * 2 / 3, end);
+        }
+        return;
+    }
 }

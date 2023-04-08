@@ -7,6 +7,7 @@ class ArgumentInfo : IEquatable<ArgumentInfo>
         {
             throw new ArgumentException($"имя параметра не может быть неопределенным или пустым.", nameof(name));
         }
+        
         isIn = (isIn && !isParams) && !isOut;
         isOut = isOut && !isParams;
         Type = type;
