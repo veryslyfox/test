@@ -26,7 +26,7 @@ static partial class Program
             Vector.Create(1, 1, 1),
             Vector.Create(1, 1, 1)
             );
-            var c = Matrix.GenerateBin(50, 57);
+            var c = Matrix.GenerateBin(15, 17);
             c.Write();
             Console.ReadLine();
         }
