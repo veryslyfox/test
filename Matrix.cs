@@ -6,6 +6,8 @@ public class Matrix
     public Matrix(Vector[] vectors)
     {
         Vectors = vectors;
+        X = vectors[0].Values.Length;
+        Y = vectors.Length;
     }
     public static Matrix Create(params Vector[] vectors)
     {
@@ -23,6 +25,10 @@ public class Matrix
     {
         return new(a.Vectors.Select(k => k * b).ToArray());
     }
+    public static Matrix operator -(Matrix value)
+    {
+        return new(value.Vectors.Select(z => -z).ToArray());
+    }
     public Vector[] Vectors { get; }
     public void Write()
     {
@@ -37,19 +43,23 @@ public class Matrix
         Array.Fill(array, d);
         var vector = new Vector(array);
         var vectors = new Vector[y];
-        Array.Fill(vectors, vector);
+        for (int i = 0; i < y; i++)
+        {
+            array = array.ToArray();
+            vector = new(array);
+            vectors[i] = vector;
+        }
         return new(vectors);
     }
+    public static Random Random = new Random();
     public static Matrix GenerateBin(int x, int y)
     {
-        Tsr tsr = new Tsr();
-        Random rng = new Random();
         var matrix = Generate(x, y, 0);
         for (int row = 0; row < y; row++)
         {
             for (int column = 0; column < x; column++)
             {
-                matrix[column, row] = rng.Next(2);   
+                matrix[column, row] = Random.Next(2);
             }
         }
         return matrix;
@@ -59,6 +69,14 @@ public class Matrix
         get => Vectors[y].Values[x];
         set => Vectors[y].Values[x] = value;
     }
+    public static Matrix Dot(int x, int y)
+    {
+        var result = Generate(x, y);
+        result[Random.Next(x), Random.Next(y)] = 1;
+        return result;
+    }
+    public int X { get; }
+    public int Y { get; }
 }
 public class Vector
 {
@@ -83,6 +101,10 @@ public class Vector
     {
         return new(a.Values.Select(k => k * b).ToArray());
     }
+    public static Vector operator -(Vector value)
+    {
+        return new(value.Values.Select(z => -z).ToArray());
+    }
     public void Write()
     {
         foreach (var item in Values)
@@ -93,7 +115,7 @@ public class Vector
     }
     public Vector Relu()
     {
-        return new(Values.Select(x => x < 0 ? x : 0).ToArray());
+        return new(Values.Select(x => x < 0 ? 0 : x).ToArray());
     }
 }
 public class NeuralNetwork
@@ -103,32 +125,76 @@ public class NeuralNetwork
         Random random = new Random();
         Matrices = matrices;
         Delta = delta;
+        DMatrix = matrices[matrices.Length - 1];
     }
 
     public Matrix[] Matrices { get; }
     public double Delta { get; }
-    public Vector Propagation(Vector input)
+    public Matrix DMatrix { get; set; }
+    public int Y { get; private set; }
+    public int X { get; private set; }
+    public bool LowerDot { get; private set; }
+
+    public Vector Propagation(Vector data)
     {
-        Vector result = input;
+        Vector result = data;
         foreach (var item in Matrices)
         {
-            input = (input * item).Relu();
+            data = (data * item).Relu();
         }
-        return input;
+        return data;
     }
+   
     
-    public void RandomBinMatrix()
+    public static NeuralNetwork Random(int min, int max, string arch)
     {
-        Random rng = new Random();
-        Matrix matrix = new Matrix(new Vector[16]);
-        for (int y = 0; y < Matrices.GetLength(1); y++)
-        {
-            for (int x = 0; x < Matrices.GetLength(0); x++)
-            {
-                
-            }
-        }
-        rng.Next(2);
+
     }
 }
 
+public class NeuralNetworkPair
+{
+    public NeuralNetworkPair()
+    {
+
+    }
+}
+
+public interface IResultMetrics<T>
+{
+    double Error(T data);
+}
+public class Metrics : IResultMetrics<Vector>
+{
+    public Metrics(Vector vector)
+    {
+        Vector = vector;
+    }
+
+    public Vector Vector { get; }
+
+    public double Error(Vector vector)
+    {
+        return ((Vector + vector * -1) * (Vector + vector * -1));
+    }
+}
+public class Evolution
+{
+    static Random Random { get; } = new Random();
+    public static Matrix GetRandomMatrix(int x, int y, double min, double max)
+    {
+        var matrix = Matrix.Generate(x, y);
+        for (int row = 0; row < y; row++)
+        {
+            for (int column = 0; column < x; column++)
+            {
+                matrix[column, row] = Random.NextDouble() * (max - min) + min;
+            }
+        }
+        return matrix;
+    }
+    public static Matrix Mutation(double min, double max, Matrix matrix)
+    {
+        return matrix + GetRandomMatrix(matrix.X, matrix.Y, min, max);
+    }
+}
