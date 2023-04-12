@@ -1,6 +1,3 @@
-using System.Collections;
-using Animals;
-
 public class Matrix
 {
     public Matrix(Vector[] vectors)
@@ -113,51 +110,64 @@ public class Vector
         }
         Console.WriteLine();
     }
-    public Vector Relu()
+    public Vector Active()
     {
-        return new(Values.Select(x => x < 0 ? 0 : x).ToArray());
+        return new(Values.Select(x => x * x).ToArray());
     }
 }
 public class NeuralNetwork
 {
-    public NeuralNetwork(Matrix[] matrices, double delta = 0.01)
+    public NeuralNetwork(Matrix[] matrices)
     {
         Random random = new Random();
         Matrices = matrices;
-        Delta = delta;
         DMatrix = matrices[matrices.Length - 1];
     }
 
     public Matrix[] Matrices { get; }
-    public double Delta { get; }
     public Matrix DMatrix { get; set; }
-    public int Y { get; private set; }
-    public int X { get; private set; }
     public bool LowerDot { get; private set; }
 
-    public Vector Propagation(Vector data)
+    public Vector Propagate(Vector data)
     {
         Vector result = data;
         foreach (var item in Matrices)
         {
-            data = (data * item).Relu();
+            data = (data * item).Active();
         }
         return data;
     }
-   
-    
-    public static NeuralNetwork Random(int min, int max, string arch)
-    {
 
+
+    public static NeuralNetwork GetRandomNetwork(int min, int max, string arch)
+    {
+        var neurons = arch.Split(',').Select(k => int.Parse(k)).ToArray();
+        Matrix[] result = new Matrix[neurons.Length - 1];
+        for (int i = 0; i < neurons.Length - 1; i++)
+        {
+            result[i] = Evolution.GetRandomMatrix(neurons[i], neurons[i + 1], min, max);
+        }
+        return new(result);
+    }
+    public void Write()
+    {
+        foreach (var item in Matrices)
+        {
+            item.Write();
+        }
     }
 }
 
 public class NeuralNetworkPair
 {
-    public NeuralNetworkPair()
+    public NeuralNetworkPair(NeuralNetwork a, NeuralNetwork b)
     {
-
+        A = a;
+        B = b;
     }
+
+    public NeuralNetwork A { get; }
+    public NeuralNetwork B { get; }
 }
 
 public interface IResultMetrics<T>
@@ -196,5 +206,30 @@ public class Evolution
     public static Matrix Mutation(double min, double max, Matrix matrix)
     {
         return matrix + GetRandomMatrix(matrix.X, matrix.Y, min, max);
+    }
+    public static NeuralNetworkPair Crossing(NeuralNetworkPair pair)
+    {
+        var dot = Random.Next(pair.A.Matrices.Length);
+        var a = pair.A.Matrices.AsSpan(0, dot).ToArray();
+        var b = pair.A.Matrices.AsSpan(dot, pair.A.Matrices.Length - dot).ToArray();
+        var c = pair.B.Matrices.AsSpan(0, dot).ToArray();
+        var d = pair.B.Matrices.AsSpan(dot, pair.B.Matrices.Length - dot).ToArray();
+        return new(new(a.Concat(c).ToArray()), new(b.Concat(d).ToArray()));
+    }
+    public static NeuralNetwork[] Selection(NeuralNetwork[] population, int size, Func<NeuralNetwork, double> selector)
+    {
+        return population.Chunk(size).Select(n => n.MinBy(selector)).ToArray()!;
+    }
+    public static NeuralNetwork[] Generation(NeuralNetwork[] neuralNetworks, double min, double max)
+    {
+        var array = new NeuralNetwork[neuralNetworks.Length * neuralNetworks.Length];
+        for (int i = 0; i < neuralNetworks.Length; i++)
+        {
+            for (int j = 0; j < neuralNetworks.Length; j++)
+            {
+                array[i * neuralNetworks.Length + j] = new(Crossing(new(neuralNetworks[i], neuralNetworks[j])).A.Matrices.Select(z => Mutation(min, max, z)).ToArray());
+            }
+        }
+        return array;
     }
 }

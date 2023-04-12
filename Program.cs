@@ -17,17 +17,15 @@ using System.Text.RegularExpressions;
 15525166389437335543602135433229604645318478604952148193555853611059596230656*/
 static partial class Program
 {
+    static Random _rng = new Random();
     static void Main()
     {
         try
         {
-            var a = Vector.Create(2, 3, 2);
-            var matrix = Matrix.Create(Vector.Create(1, 2, 1),
-            Vector.Create(1, 1, 1),
-            Vector.Create(1, 1, 1)
-            );
-            var c = Matrix.GenerateBin(15, 17);
-            c.Write();
+            var a = NeuralNetwork.GetRandomNetwork(-1, 1, "3, 2, 3");
+            var b = NeuralNetwork.GetRandomNetwork(-1, 1, "3, 2, 3");
+            var c = Evolution.Selection(new NeuralNetwork[]{a, b}, 2, n => 1);
+            Console.Write(c[0] == null ? "" : "NULL");
             Console.ReadLine();
         }
         catch (Exception exception)
