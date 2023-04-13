@@ -110,22 +110,21 @@ public class Vector
         }
         Console.WriteLine();
     }
-    public Vector Active()
+    public Vector Relu()
     {
-        return new(Values.Select(x => x * x).ToArray());
+        return new(Values.Select(x => x == 0 ? x : 0).ToArray());
     }
 }
 public class NeuralNetwork
 {
-    public NeuralNetwork(Matrix[] matrices)
+    public NeuralNetwork(Matrix[] matrices, double delta = 0.01)
     {
-        Random random = new Random();
         Matrices = matrices;
-        DMatrix = matrices[matrices.Length - 1];
+        Delta = delta;
     }
 
     public Matrix[] Matrices { get; }
-    public Matrix DMatrix { get; set; }
+    public double Delta { get; set; }
     public bool LowerDot { get; private set; }
 
     public Vector Propagate(Vector data)
@@ -133,13 +132,13 @@ public class NeuralNetwork
         Vector result = data;
         foreach (var item in Matrices)
         {
-            data = (data * item).Active();
+            data = (data * item).Relu();
         }
         return data;
     }
 
 
-    public static NeuralNetwork GetRandomNetwork(int min, int max, string arch)
+    public static NeuralNetwork GetRandomNetwork(int min, int max, string arch, double delta = 0.01)
     {
         var neurons = arch.Split(',').Select(k => int.Parse(k)).ToArray();
         Matrix[] result = new Matrix[neurons.Length - 1];
@@ -147,7 +146,7 @@ public class NeuralNetwork
         {
             result[i] = Evolution.GetRandomMatrix(neurons[i], neurons[i + 1], min, max);
         }
-        return new(result);
+        return new(result, delta);
     }
     public void Write()
     {
@@ -155,6 +154,23 @@ public class NeuralNetwork
         {
             item.Write();
         }
+    }
+    public void BackPropagate(int layer, int x, int y, Vector input, Vector output, double speed)
+    {
+        var err = Propagate(input) * output;
+        this[x, y, layer] += Delta;
+        var err2 = Propagate(input) * output;
+        this[x, y, layer] += (err2 - err) / Delta * speed - Delta;
+    }
+    public Matrix this[int layer]
+    {
+        get => Matrices[layer];
+        set => Matrices[layer] = value;
+    }
+    public double this[int x, int y, int layer]
+    {
+        get => Matrices[layer][x, y];
+        set => Matrices[layer][x, y] = value;
     }
 }
 
