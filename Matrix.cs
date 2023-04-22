@@ -66,6 +66,11 @@ public class Matrix
         get => Vectors[y].Values[x];
         set => Vectors[y].Values[x] = value;
     }
+    public double this[int count]
+    {
+        get => Vectors[count / Y].Values[count % X];
+        set => Vectors[count / Y].Values[count % X] = value;
+    }
     public static Matrix Dot(int x, int y)
     {
         var result = Generate(x, y);
@@ -74,6 +79,7 @@ public class Matrix
     }
     public int X { get; }
     public int Y { get; }
+    public int Length { get => X * Y; }
 }
 public class Vector
 {
@@ -85,7 +91,7 @@ public class Vector
     {
         return new(values);
     }
-    public double[] Values { get; }
+    public double[] Values { get; set; }
     public static double operator *(Vector a, Vector b)
     {
         return a.Values.Zip(b.Values, (p, q) => p * q).Sum();
@@ -112,7 +118,7 @@ public class Vector
     }
     public Vector Relu()
     {
-        return new(Values.Select(x => x == 0 ? x : 0).ToArray());
+        return new(Values.Select(x => x).ToArray());
     }
 }
 public class NeuralNetwork
@@ -161,6 +167,32 @@ public class NeuralNetwork
         this[x, y, layer] += Delta;
         var err2 = Propagate(input) * output;
         this[x, y, layer] += (err2 - err) / Delta * speed - Delta;
+    }
+    public void BackPropagate(Vector input, Vector output, double speed)
+    {
+        for (int layer = 0; layer < Matrices.Length; layer++)
+        {
+            for (int x = 0; x < this[layer].X; x++)
+            {
+                for (int y = 0; y < this[layer].Y; y++)
+                {
+                    var err = (Propagate(input) + output * -1).Relu().Values.Sum();
+                    this[x, y, layer] += Delta;
+                    var err2 = (Propagate(input) + output * -1).Relu().Values.Sum();
+                    this[x, y, layer] -= (err2 - err) / Delta * speed + Delta;
+                    var err3 = (Propagate(input) + output * -1).Relu().Values.Sum();
+                    if (err3 > err2)
+                    {
+                        speed = -speed * 0.5;
+                    }
+                }
+            }
+        }
+    }
+    public void Gradient(Vector input, Vector output)
+    {
+        NeuralNetwork network = this;
+
     }
     public Matrix this[int layer]
     {

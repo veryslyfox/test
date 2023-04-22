@@ -2,8 +2,8 @@ namespace System.Security.Cryptography;
 #pragma warning disable
 class Connection
 {
-    public Sender Alice { get; }
-    public Sender Bob { get; }
+    public DHSender Alice { get; }
+    public DHSender Bob { get; }
     private byte[] DataStream { get; set; }
     
 }
