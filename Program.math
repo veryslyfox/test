@@ -1,0 +1,227 @@
+var cursor = 0;
+var code = "";
+var file = File.OpenText("Program.math");
+while (true)
+{
+    code = file.ReadLine();
+    if (code == null)
+    {
+        break;
+    }
+    if (code.Contains('='))
+    {
+        Variable.Construct(code);
+    }
+    var left = Left('(');
+    Right(')');
+    var right = Right(')');
+}
+Console.ReadKey();
+string? Left(char c)
+{
+    var result = "";
+    while (code[cursor] != c && cursor != 0)
+    {
+        cursor--;
+        result += code[cursor];
+    }
+    if (cursor == 0)
+    {
+        return null;
+    }
+    else
+    {
+        return result;
+    }
+}
+string? Right(char c)
+{
+    var result = "";
+    while (code[cursor] != c && cursor != code.Length - 1)
+    {
+        cursor++;
+        result += code[cursor];
+    }
+    if (cursor == code.Length - 1)
+    {
+        return null;
+    }
+    else
+    {
+        return result;
+    }
+}
+string Span(string input, string span)
+{
+    if (input.Substring(0, span.Length) == span)
+    {
+        return input.Substring(span.Length);
+    }
+    else
+    {
+        return input;
+    }
+}
+class Variable
+{
+    public Variable(double value, string name)
+    {
+        Value = value;
+        Name = name;
+        Variables.Add(name, value);
+    }
+
+    public double Value { get; }
+    public string Name { get; }
+    public static Dictionary<string, double> Variables = new Dictionary<string, double>();
+
+    public static void Construct(string constructor)
+    {
+        var value = "";
+        var name = "";
+        var isValue = false;
+        foreach (var item in constructor)
+        {
+            if (item == '=')
+            {
+                isValue = true;
+                continue;
+            }
+            if (isValue)
+            {
+                value += item;
+            }
+            else
+            {
+                name += item;
+            }
+        }
+        if (double.TryParse(value, out double i))
+        {
+            new Variable(i, name);
+        }
+        else
+        {
+            Console.WriteLine("Ошибка ввода числа");
+            new Variable(0, "");
+        }
+    }
+}
+int[] MergeSort(int[] array)
+{
+    if (array.Length <= 1)
+    {
+        return array;
+    }
+    return Merge(MergeSort(array[..(array.Length / 2)]), MergeSort(array[(array.Length / 2)..]));
+}
+int[] Merge(int[] left, int[] right)
+{
+    var result = new int[left.Length + right.Length];
+    var p = 0;
+    var q = 0;
+    var last = 0;
+    for (int i = 0; i < result.Length; i++)
+    {
+        last = result[p + q];
+        var isContinue = false;
+        if (last > p && q != right.Length - 1)
+        {
+            p++;
+            isContinue = true;
+        }
+        if (last > q && p != right.Length - 1)
+        {
+            q++;
+            isContinue = true;
+        }
+        if (isContinue)
+        {
+            continue;
+        }
+        if (left[p] < right[q])
+        {
+            result[i] = left[p];
+        }
+        else
+        {
+            result[i] = right[q];
+        }
+    }
+    return result;
+}
+var array = new int[] { 3, 2, 1 };
+foreach (var item in MergeSort(array))
+{
+    Console.WriteLine(item);
+}
+Console.ReadKey();
+using System.Collections;
+
+int[] ToFactorialSystem(long value)
+{
+    long factorial = 1;
+    var af = 1;
+    for (long i = 1, result = 1; result * (i + 1) < value; i++, result *= i, factorial = result, af++) ;
+    var resultArray = new int[af];
+    var count = 0;
+    while (value != 0)
+    {
+        if (factorial == 0)
+        {
+            break;
+        }
+        resultArray[count] = (int)(value / factorial);
+        value = value % factorial;
+        if (af - count == 0)
+        {
+            break;
+        }
+        factorial /= (af - count);
+        count++;
+    }
+    return resultArray;
+}
+long HashConverter(long value)
+{
+    BigInteger integer = new BigInteger();
+    foreach (var item in ToFactorialSystem(value))
+    {
+        integer = (integer << 7) ^ item;
+    }
+    return (long)(integer & long.MaxValue) ^ 4294967296;
+}
+long HashConverterI(long value, int iteff)
+{
+    if (iteff == 0)
+    {
+        return value;
+    }
+    return HashConverter(HashConverterI(value, iteff - 1));
+}
+long Hash(string fileName)
+{
+    if (fileName == null)
+    {
+        return 0;
+    }
+    if (!File.Exists(fileName))
+    {
+        return 0;
+    }
+    var hash = 0L;
+    var file = File.Open(fileName, FileMode.Open);
+    var array = new byte[8];
+    var cursor = 0;
+    while (cursor >= file.Length)
+    {
+        cursor++;
+        file.Read(array);
+        hash = HashConverter(hash ^ (long)(new BigInteger(array)));
+    }
+    return hash;
+}
+while (true)
+{
+    Console.WriteLine(Hash(Console.ReadLine()));
+}

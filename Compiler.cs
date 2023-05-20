@@ -44,7 +44,7 @@ class Error
 
 class ParseResult
 {
-    public IReadOnlyList<Error> Errors { get; }
+    public IReadOnlyList<Error> Errors { get; } = new List<Error>();
 }
 
 class Expression

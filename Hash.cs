@@ -1,5 +1,6 @@
 static partial class Program
 {
+    
 #pragma warning disable // Задам, когда нужно
     public static CubeHashData CubeHashData;
 #pragma warning restore
