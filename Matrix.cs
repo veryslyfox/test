@@ -214,22 +214,22 @@ public class NeuralNetwork
         BinaryReader reader = new BinaryReader(file);
         var delta = reader.ReadDouble();
         var alpha = reader.ReadDouble();
-        var length = reader.ReadInt32();
-        var a = reader.ReadInt32();
-        var b = reader.ReadInt32();
-        var result = new NeuralNetwork(new Matrix[length], delta, alpha);
-        for (int i = 0; i < length; i++)
+        var layerCount = reader.ReadInt32();
+        var width = reader.ReadInt32();
+        var height = reader.ReadInt32();
+        var result = new NeuralNetwork(new Matrix[layerCount], delta, alpha);
+        for (int layer = 0; layer < layerCount; layer++)
         {
-            result.Matrices[i] = Matrix.Generate(a, b);
-            for (int x = 0; x < a; x++)
+            result.Matrices[layer] = Matrix.Generate(width, height);
+            for (int y = 0; y < height; y++)
             {
-                for (int y = 0; y < b; y++)
+                for (int x = 0; x < width; x++)
                 {
-                    result[i, x, y] = reader.ReadInt32();
+                    result[x, y, layer] = reader.ReadDouble();
                 }
             }
-            a = b;
-            b = reader.ReadInt32();
+            width = height;
+            height = reader.ReadInt32();
         }
         file.Close();
         return result;
