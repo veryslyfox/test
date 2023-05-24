@@ -58,8 +58,8 @@ public class Matrix
         get => Vectors[y].Values[x];
         set => Vectors[y].Values[x] = value;
     }
-    public int X { get; }
-    public int Y { get; }
+    public int X { get; set; }
+    public int Y { get; set; }
 }
 public class Vector
 {
@@ -108,7 +108,7 @@ public class Vector
 public class NeuralNetwork
 {
 #pragma warning disable
-    public NeuralNetwork(Matrix[] matrices, bool isFormed = true, double delta = 0.01, double alpha = 1) // Form property not used from "Weight hegehod"
+    public NeuralNetwork(Matrix[] matrices, double delta = 0.01, double alpha = 1) // Form property not used from "Weight hegehod"
 #pragma warning restore
     {
         Matrices = matrices;
@@ -141,7 +141,7 @@ public class NeuralNetwork
         {
             result[i] = Evolution.GetRandomMatrix(neurons[i], neurons[i + 1], min, max);
         }
-        return new(result, false, delta, alpha);
+        return new(result, delta, alpha);
     }
     public void Write()
     {
@@ -186,6 +186,53 @@ public class NeuralNetwork
         {
             Alpha /= 2;
         }
+    }
+    public void Write(string fileName, FileMode mode)
+    {
+        var file = File.Open(fileName, mode);
+        BinaryWriter writer = new BinaryWriter(file);
+        writer.Write(Delta);
+        writer.Write(Alpha);
+        writer.Write(Matrices.Length);
+        writer.Write(Matrices[0].X);
+        for (int layer = 0; layer < Matrices.Length; layer++)
+        {
+            writer.Write(Matrices[layer].Y);
+            for (int y = 0; y < Matrices[layer].Y; y++)
+            {
+                for (int x = 0; x < Matrices[layer].X; x++)
+                {
+                    writer.Write(this[x, y, layer]);
+                }
+            }
+        }
+        file.Close();
+    }
+    static public NeuralNetwork Read(string fileName, FileMode mode)
+    {
+        var file = File.Open(fileName, mode);
+        BinaryReader reader = new BinaryReader(file);
+        var delta = reader.ReadDouble();
+        var alpha = reader.ReadDouble();
+        var length = reader.ReadInt32();
+        var a = reader.ReadInt32();
+        var b = reader.ReadInt32();
+        var result = new NeuralNetwork(new Matrix[length], delta, alpha);
+        for (int i = 0; i < length; i++)
+        {
+            result.Matrices[i] = Matrix.Generate(a, b);
+            for (int x = 0; x < a; x++)
+            {
+                for (int y = 0; y < b; y++)
+                {
+                    result[i, x, y] = reader.ReadInt32();
+                }
+            }
+            a = b;
+            b = reader.ReadInt32();
+        }
+        file.Close();
+        return result;
     }
     public double Alpha { get; private set; }
     public static readonly Random _rng = new Random();
