@@ -105,6 +105,27 @@ public class Vector
         return Values.Sum();
     }
 }
+public class Database
+{
+    public Database(Dictionary<Vector, Vector> data)
+    {
+        Data = data;
+    }
+    public double Error(NeuralNetwork network)
+    {
+        var sum = 0.0;
+        foreach (var item in Data)
+        {
+            sum += Dist(network.Propagate(item.Key), item.Value);
+        }
+        return sum;
+    }
+    public static double Dist(Vector left, Vector right) 
+    {
+        return left.Values.Zip(right.Values, (a, b) => (a - b) * (a - b)).Aggregate((a, b) => a + b);
+    }
+    public Dictionary<Vector, Vector> Data { get; }
+}
 public class NeuralNetwork
 {
 #pragma warning disable
@@ -119,8 +140,6 @@ public class NeuralNetwork
 
     public Matrix[] Matrices { get; set; }
     public double Delta { get; set; }
-    public bool LowerDot { get; private set; }
-    public NeuralNetwork Form { get; }
 
     public Vector Propagate(Vector data)
     {
@@ -216,10 +235,11 @@ public class NeuralNetwork
         var alpha = reader.ReadDouble();
         var layerCount = reader.ReadInt32();
         var width = reader.ReadInt32();
-        var height = reader.ReadInt32();
+        int height;
         var result = new NeuralNetwork(new Matrix[layerCount], delta, alpha);
         for (int layer = 0; layer < layerCount; layer++)
         {
+            height = reader.ReadInt32();
             result.Matrices[layer] = Matrix.Generate(width, height);
             for (int y = 0; y < height; y++)
             {
@@ -229,7 +249,6 @@ public class NeuralNetwork
                 }
             }
             width = height;
-            height = reader.ReadInt32();
         }
         file.Close();
         return result;
