@@ -1,26 +1,39 @@
+var rng = new Random();
 try
 {
-    var network = NeuralNetwork.GetRandomNetwork(0, 0, "2, 1", 0.0001, 1);
-    double GetError(NeuralNetwork network)
+    var e = Console.ReadLine();
+    while (e == null)
     {
-        return Err(1, 1, 2) + Err(1, 2, 3) + Err(2, 1, 3) + Err(2, 2, 4);
+        e = Console.ReadLine();
     }
-    double Err(double a, double b, double c)
+    e = e.Replace(" ", "");
+    List<double> numbers = new();
+    List<Operation> operations = new();
+    var numberString = "";
+    foreach (var item in e)
     {
-        return Math.Abs(c - Use(a, b));
+        var itemCode = (int)item;
+        if (itemCode is > 47 and < 58 || itemCode == 46)
+        {
+            numberString += item;
+        }
+        else
+        {
+            numberString = "";
+            break; 
+        }
     }
-    double Use(double a, double b)
+    if (double.TryParse(numberString, out double number))
     {
-        return network!.Propagate(Vector.Create(a, b)).Values[0];
+        numbers.Add(number);
+        goto 
     }
-    for (int i = 0; i < 100000; i++)
+    else
     {
-        network.CorrectAll(GetError);
+        Console.WriteLine("Error");
+        Console.ReadKey();
+        return;
     }
-    network.Write();
-    network.Write("Weights", FileMode.Open);
-    NeuralNetwork.Read("Weights", FileMode.Open).Write();
-    Console.ReadKey();
 }
 catch (Exception exception)
 {
@@ -29,4 +42,11 @@ catch (Exception exception)
 finally
 {
     Console.ReadKey();
+}
+enum Operation
+{
+    Addition,
+    Subtraction,
+    Multiply,
+    Division,
 }
