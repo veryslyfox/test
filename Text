@@ -1,0 +1,90 @@
+One of the most important challenges that any beginner math students face is to overcome the temptation of looking at a math problem as just a bunch of symbols and rules. For example, let's look at the property of exponents below:
+
+I am sure we can all recite this property by heart:
+
+"When multiplying a base raised to one exponent by the same base raised to another exponent, the exponents add."
+That's great! But let is pause and try to see beyond the equation. I want us to remember what algebra is all about.
+
+This might seem trivial or too basic to mention, but remember that all these rules and patterns about quantities hold true for any type of object or entity involved. This equation encodes a property that holds true for oranges, cars, ducks, watermelons, and any other discrete entity. And because it's true for any object, we abstract the details and write this relationship using generic letters and symbols.
+
+Look, this is important! Most of us were raised to look at the equation above and simply create links between glyphs and symbols. That's great for when we are trying to be fast and productive, but I want you to force your brain to think about what this property is really trying to tell us. At least until you feel confident you really understood it intuitively.
+
+property adding exponents
+The example above is extremely simple, but it's surprising how many of us don't stop to really internalize what these symbols on paper really mean. Most "serious" math books will present this type of relationship using math notation; it's up to us to really put in the effort of translating the symbols into something meaningful and create the intuition we need to make sense about what's written on paper.
+
+This distance between symbols and their real meaning is one of the reasons students struggle to digest the contents of resources that use math notation.
+
+If you catch yourself thinking only in terms of rules that you apply on symbols, like when you say "here I can cross 
+ with 
+", that's when you need to stop and rewind! It does not matter how simple an equation looks, force yourself to find the meaning behind it.
+
+Suggestion: This might seem childish at first, but one technique that really helped me see beyond the symbols and start creating connections to the real meaning of variables was to use different colors as I write math notation. Writing every 
+ in blue and every 
+ in red forces my brain to remember the real meaning of those variables as I derive the equations on paper.
+
+math notation color
+Math Notation vs. Programming Syntax
+Besides finding math notation intimidating, programmers also complain that it can be ambiguous. In a world where identifiers must be unique and every semicolon matters, math notation can sometimes throw us a curve ball.
+
+Some example:
+
+ can be an inverse, a preimage, and sometimes even 
+ 
+.
+ can be 
+ or 
+.
+ is sometimes written as 
+, omitting the parentheses.
+ is sometimes written as 
+, omitting the parentheses.
+ is equivalent to 
+.
+ is equivalent to 
+, and not the multiplicative inverse of 
+.
+Modern programmers are also used to long and descriptive variable names. We think long and hard before giving meaningful names to our variables in code, but most math symbols tend to be dry and short.
+
+In my opinion, translating math notation to code and using descriptive names is one of the reasons students finally understand the applications of some of the math they saw in the classroom. When we are starting, it's easier to connect the dots if we put things into context. It's a lot more descriptive to name a variable as distancePlayerEnemy instead of just 
+ or, even worse, 
+
+distance between two points
+The distance between two cartesian points is the hypotenuse of a right triangle.
+Using long and descriptive names does not mean that programming syntax is better than math notation. It simply means mathematicians like to use short and concise symbols; that's all. Keep in mind that math notation was initially developed to be written by hand and most equations tend to get complicated pretty fast. Using verbose names for math variables on a blackboard is probably not a good idea.
+
+math notation programming
+Mathematicians prefer to use short variable names so they can expand complex ideas using fewer symbols.
+I've also seen programmers create online references translating math notation using code. One of the most popular examples of such translation is the notation used for summations and products.
+
+Capital-Sigma Notation for Summation
+The big Greek 
+ (Sigma) is for Summation. With whole numbers, we can write it as a loop that sums values.
+
+var sum = 0;
+for (var i = 1; i <= 100; i++) {
+  sum += (2 * i + 1);
+}
+Here, 
+ tells us to start at 
+ and end at the number above the Sigma, 
+. These are the lower and upper bounds, respectively. The 
+ to the right of Sigma tells us what we are summing.
+
+The notation can be nested, similar to nesting a for loop. You should evaluate the right-most sigma first, unless the author has enclosed them in parentheses to alter the order. However, in the following case, since we are dealing with finite sums, the order does not matter.
+
+var sum = 0;
+for (var i = 1; i <= 100; i++) {
+  for (var j = 100; j <= 200; j++) {
+    sum += (2 * i * j);
+  }
+}
+Capital-Pi Notation for Product
+The big Greek 
+ (Pi) is for Product. It is very similar to the Sigma notation, except we are using multiplication to find the product of a sequence of values.
+
+var mul = 1;
+for (var i = 1; i <= 10; i++) {
+  mul *= i;
+}
+If you want more examples of math notation as code, check out Understanding Math Symbols with Code. Ian Rowan's blog post includes examples on factorials, conditional brackets, and matrix operations.
+
