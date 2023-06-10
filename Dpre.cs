@@ -12,12 +12,12 @@ class DpreData
         Key = key;
     }
 
-    public TypeSelector InPrivate { get; }
-    public TypeSelector OutPrivate { get; }
-    public byte[] Data { get; }
+    TypeSelector InPrivate { get; }
+    TypeSelector OutPrivate { get; }
+    byte[] Data { get; }
     public bool IsDataFileName { get; }
     public IDpreReflector? DpreReflector { get; }
-    public object? Key { get; }
+    object? Key { get; }
 }
 interface IDpreReflector
 {

@@ -24,10 +24,10 @@ static partial class Program
     }
     public static byte Hash256Byte(string value, int index)
     {
-        var p = index % 2;
-        var q = index << 2 % 2;
-        var r = index << 4 % 2;
-        var t = index << 6 % 2;
+        var p = index & 1;
+        var q = index << 2 & 1;
+        var r = index << 4 & 1;
+        var t = index << 6 & 1;
         var array = new int[] { p, q, r, t };
         var length = CubeHashData.Value.Length;
         var result = 0;
@@ -94,4 +94,21 @@ public class CubeHashData
         get => new TernaryOperator((byte)(x ^ y ^ z)).Combine(Value[x], Value[y], Value[z]);
     }
     public byte[] Value { get; }
+}
+class ModPolynom
+{
+    public ModPolynom(byte[] factors)
+    {
+        Factors = factors;
+    }
+    
+    public byte[] Factors { get; }
+}
+class ModPolynomMulTablix
+{
+    public ModPolynomMulTablix(ModPolynom polynom)
+    {
+        Polynom = polynom;
+    }
+    public ModPolynom Polynom { get; }
 }

@@ -367,3 +367,307 @@ while (true)
 //     }
 //     return result;
 // }
+using System.Media;
+try
+{
+    var textFrequency = new Dictionary<(char, char, char, char), int>();
+    var file = File.Open("Text", FileMode.Open);
+    StreamReader writer = new(file);
+    char a = 'p';
+    char b = 'i';
+    char c = 'k';
+    char d = 'u';
+    var line = "";
+    while (true)
+    {
+        line = writer.ReadLine();
+        if (line == null)
+        {
+            break;
+        }
+        var clearedLine = "";
+        for (int i = 0; i < line.Length; i++)
+        {
+            if ((int)line[i] is > 31 and < 128)
+            {
+                clearedLine += line[i];
+            }
+        }
+        line = clearedLine;
+        foreach (var item in line)
+        {
+            c = d;
+            b = c;
+            a = b;
+            d = item;
+            if (!textFrequency.ContainsKey((a, b, c, d)))
+            {
+                textFrequency.Add((a, b, c, d), 1);
+            }
+            textFrequency[(a, b, c, d)] += 1;
+        }
+    }
+    var count = 0;
+    var top = new Dictionary<(char, char, char), char>();
+    for (int x = 32; x < 128; x++)
+    {
+        for (int y = 32; y < 128; y++)
+        {
+            for (int z = 32; z < 128; z++)
+            {
+                var maxIndex = 0;
+                var max = -1;
+                for (int w = 32; w < 128; w++)
+                {
+                    var freq = textFrequency.ContainsKey(((char)x, (char)y, (char)z, (char)w)) ? textFrequency[((char)x, (char)y, (char)z, (char)w)] : 0;
+                    if (max < freq)
+                    {
+                        maxIndex = w;
+                        max = freq;
+                        break;
+                    }
+                }
+                top.Add(((char)x, (char)y, (char)z), (char)maxIndex);
+                count++;
+            }
+        }
+    }
+    var text = new char[100];
+    text[0] = 'D';
+    text[1] = 'o';
+    text[2] = 'n';
+    for (int i = 3; i < 100; i++)
+    {
+        text[i] = top[(text[i - 1], text[i - 2], text[i - 3])];
+    }
+    Console.WriteLine(new string(text));
+}
+catch (Exception exception)
+{
+    Console.WriteLine(exception);
+}
+finally
+{
+    Console.ReadKey();
+}
+// try
+// {
+//     Console.WriteLine(Computing("2 * 3"));
+//     double Computing(string e)
+//     {
+//         var tokens = Tokenize(e);
+//         return ComputingTokens(tokens.Item1, tokens.Item2);
+//     }
+//     double ComputingTokens(List<double> numbers, List<Operation> operations)
+//     {
+//         var count = operations.Count;
+//         for (int i = 0; i < count; i++)
+//         {
+//             if (operations[0] == Operation.Multiply)
+//             {
+//                 numbers.Insert(i, numbers[i] * numbers[i + 1]);
+//                 numbers.RemoveAt(i + 1);
+//                 numbers.RemoveAt(i + 1);
+//                 operations.RemoveAt(0);
+//             }
+//             if (operations[0] == Operation.Division)
+//             {
+//                 numbers.Insert(i, numbers[i] / numbers[i + 1]);
+//                 numbers.RemoveAt(i + 1);
+//                 numbers.RemoveAt(i + 1);
+//                 operations.RemoveAt(0);
+//             }
+//         }
+//         for (int i = 0; i < count; i++)
+//         {
+//             if (operations[i] == Operation.Addition)
+//             {
+//                 numbers.Insert(i, numbers[i] + numbers[i + 1]);
+//                 numbers.RemoveAt(i + 1);
+//                 numbers.RemoveAt(i + 1);
+//                 operations.RemoveAt(0);
+//             }
+//             if (operations[i] == Operation.Subtraction)
+//             {
+//                 numbers.Insert(i, numbers[i] - numbers[i + 1]);
+//                 numbers.RemoveAt(i + 1);
+//                 numbers.RemoveAt(i + 1);
+//                 operations.RemoveAt(0);
+//             }
+//         }
+//         return numbers[0];
+//     }
+//     (List<double>, List<Operation>) Tokenize(string e)
+//     {
+//         e = e.Replace(" ", "");
+//         e += '+';
+//         List<double> numbers = new();
+//         List<Operation> operations = new();
+//         var numberString = "";
+//         var bracket = false;
+//         var inBracket = "";
+//         foreach (var item in e)
+//         {
+//             var itemCode = (int)item;
+//             if (bracket)
+//             {
+//                 inBracket += item;
+//             }
+//             if (itemCode is > 47 and < 58 || itemCode == 46)
+//             {
+//                 if (!bracket)
+//                 {
+//                     numberString += item;
+//                 }
+//             }
+//             else
+//             {
+//                 if (item == '(')
+//                 {
+//                     bracket = true;
+//                 }
+//                 if (item == ')')
+//                 {
+//                     var tokens = Tokenize(inBracket);
+//                     numbers.Add(ComputingTokens(tokens.Item1, tokens.Item2));
+//                     bracket = false;
+//                 }
+//                 if (item == '+')
+//                 {
+//                     operations.Add(Operation.Addition);
+//                 }
+//                 if (item == '-')
+//                 {
+//                     operations.Add(Operation.Subtraction);
+//                 }
+//                 if (item == '*')
+//                 {
+//                     operations.Add(Operation.Multiply);
+//                 }
+//                 if (item == '/')
+//                 {
+//                     operations.Add(Operation.Division);
+//                 }
+//                 if (double.TryParse(numberString, out double number))
+//                 {
+//                     numbers.Add(number);
+//                 }
+//                 else
+//                 {
+//                     Console.WriteLine("Error");
+//                     Console.ReadKey();
+//                     return new();
+//                 }
+//                 numberString = "";
+//             }
+//         }
+//         operations.RemoveAt(operations.Count - 1);
+//         return (numbers, operations);
+//     }
+
+
+//     // NeuralNetwork network = NeuralNetwork.GetRandomNetwork(0, 1, "64, 64, 32, 32", 0.1, 1);
+//     // for (int i = 0; i < 1; i++)
+//     // {
+//     //     network.CorrectAll(Error);
+//     // }
+//     // var input = new double[64];
+//     // for (int k = 0; k < 32; k++)
+//     // {
+//     //     var i = 105;
+//     //     var j = 2;
+//     //     input[k] = i & 1;
+//     //     input[k + 32] = j & 1;
+//     //     i = i >> 1;
+//     //     j = j >> 1;
+//     // }
+//     // var output = network.Propagate(new(input));
+//     // output.Write();
+//     // double Error(NeuralNetwork network)
+//     // {
+//     //     var result = 0.0;
+//     //     for (int i = 0; i < 10; i++)
+//     //     {
+//     //         for (int j = 0; j < 10; j++)
+//     //         {
+//     //             var input = new double[64];
+//     //             for (int k = 0; k < 32; k++)
+//     //             {
+//     //                 var I = i;
+//     //                 var J = j;
+//     //                 input[k] = I & 1;
+//     //                 input[k + 32] = J & 1;
+//     //                 I = I >> 1;
+//     //                 J = J >> 1;
+//     //             }
+//     //             var output = network.Propagate(new(input));
+//     //             result += Math.Abs(output.Values[0] - i * j);
+//     //         }
+//     //     }
+//     //     return result;
+//     // }
+// }
+// catch (Exception exception)
+// {
+//     Console.Error.WriteLine(exception);
+// }
+// finally
+// {
+//     Console.ReadKey();
+// }
+// enum Operation
+// {
+//     Addition,
+//     Subtraction,
+//     Multiply,
+//     Division,
+// }
+// class Heap
+// {
+//     public Heap(int[] array)
+//     {
+//         Array = array;
+//         ActiveElementIndex = array.Length - 1;
+//         Heapize();
+//     }
+
+//     public int[] Array { get; }
+//     public int ActiveElementIndex { get; private set; }
+//     public void Heapize()
+//     {
+//         for (int i = Array.Length - 1; i >= 0; i--)
+//         {
+//             Heapize(i);
+//         }
+//     }
+//     public void Heapize(int index)
+//     {
+//         var indexl = 2 * index + 1;
+//         var indexr = 2 * index + 2;
+//         var isLeft = indexl < ActiveElementIndex - 1 && Array[indexl] > Array[index];
+//         var isRight = indexr < ActiveElementIndex - 1 && Array[indexr] > Array[index];
+//         if (!isLeft && !isRight)
+//         {
+//             return;
+//         }
+//         if (Array[indexl] > Array[indexr])
+//         {
+//             (Array[indexl], Array[index]) = (Array[index], Array[indexl]);
+//             Heapize(indexl);
+//         }
+//         else
+//         {
+//             (Array[indexr], Array[index]) = (Array[index], Array[indexr]);
+//             Heapize(indexr);
+//         }
+//     }
+//     public void HeapSort()
+//     {
+//         for (int i = 0; i < Array.Length; i++)
+//         {
+//             (Array[0], Array[ActiveElementIndex]) = (Array[ActiveElementIndex], Array[0]);
+//             Heapize(0);
+//             ActiveElementIndex--;
+//         }
+//     }
+// }

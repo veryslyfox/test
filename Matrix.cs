@@ -120,7 +120,7 @@ public class Database
         }
         return sum;
     }
-    public static double Dist(Vector left, Vector right) 
+    public static double Dist(Vector left, Vector right)
     {
         return left.Values.Zip(right.Values, (a, b) => (a - b) * (a - b)).Aggregate((a, b) => a + b);
     }
@@ -128,31 +128,68 @@ public class Database
 }
 public class NeuralNetwork
 {
-#pragma warning disable
-    public NeuralNetwork(Matrix[] matrices, double delta = 0.01, double alpha = 1) // Form property not used from "Weight hegehod"
-#pragma warning restore
+    public NeuralNetwork(Matrix[] matrices, double delta = 0.01, double alpha = 1, bool isRecurrent = false) // Form property not used from "Weight hegehod"
     {
         Matrices = matrices;
         Delta = delta;
         Alpha = alpha;
+        IsRecurrent = isRecurrent;
+        Output = new(new double[matrices[matrices.Length - 1].Y]);
     }
-    public double[] Weights;
-
     public Matrix[] Matrices { get; set; }
     public double Delta { get; set; }
-
+    public Vector Output { get; set; }
+    public bool IsRecurrent;
     public Vector Propagate(Vector data)
     {
         Vector result = data;
+        if (IsRecurrent)
+        {
+            result = Concat(result, Output);
+        }
         foreach (var item in Matrices)
         {
-            data = (data * item).Relu();
+            result = (result * item).Relu();
         }
-        return data;
+        if (IsRecurrent)
+        {
+            Output = result;
+        }
+        return result;
     }
-
-
-    public static NeuralNetwork GetRandomNetwork(int min, int max, string arch, double delta, double alpha)
+    public Vector PropagateText(string data)
+    {
+        Vector result = new Vector(new double[0]);
+        if (IsRecurrent)
+        {
+            for (int i = 0; i < data.Length / Output.Values.Length; i++)
+            {
+                var array = new double[Output.Values.Length];
+                var beginBlock = i * Output.Values.Length;
+                for (int j = 0; j < Output.Values.Length; j++)
+                {
+                    array[j] = data[beginBlock + j];   
+                }
+                result = Propagate(new(array));
+            }
+            return result;
+        }
+        return Output;
+    }
+    public static Vector Concat(Vector data, Vector prevOutput)
+    {
+        var result = new double[data.Values.Length + prevOutput.Values.Length];
+        for (int i = 0; i < data.Values.Length; i++)
+        {
+            result[i] = data.Values[i];
+        }
+        for (int i = data.Values.Length; i < data.Values.Length + prevOutput.Values.Length; i++)
+        {
+            result[i] = prevOutput.Values[i - data.Values.Length];
+        }
+        return new(result);
+    }
+    public static NeuralNetwork GetRandomNetwork(int min, int max, string arch, double delta, double alpha, bool isRecurrent)
     {
         var neurons = arch.Split(',').Select(k => int.Parse(k)).ToArray();
         Matrix[] result = new Matrix[neurons.Length - 1];
@@ -160,7 +197,7 @@ public class NeuralNetwork
         {
             result[i] = Evolution.GetRandomMatrix(neurons[i], neurons[i + 1], min, max);
         }
-        return new(result, delta, alpha);
+        return new(result, delta, alpha, isRecurrent);
     }
     public void Write()
     {
@@ -180,7 +217,7 @@ public class NeuralNetwork
         get => Matrices[layer][x, y];
         set => Matrices[layer][x, y] = value;
     }
-    public void CorrectAll(Func<NeuralNetwork, double> func)
+    public double CorrectAll(Func<NeuralNetwork, double> func)
     {
         for (int layer = 0; layer < Matrices.Length; layer++)
         {
@@ -192,6 +229,7 @@ public class NeuralNetwork
                 }
             }
         }
+        return func(this);
     }
     public void Correct(int x, int y, int layer, Func<NeuralNetwork, double> func)
     {

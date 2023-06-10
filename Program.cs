@@ -70,26 +70,42 @@
 //     reader.BaseStream.Position = 0;
 // }
 using System.Diagnostics;
-Console.ReadKey();
+
 var abacus = new Abacus(10, 5);
 var array = new bool[10];
-var lastMoveTime = Stopwatch.GetTimestamp();
+var timer = new Stopwatch();
+timer.Start();
 Console.CursorVisible = false;
-while (true)
+while(Console.ReadKey().KeyChar != 's'){}
+while (!abacus.Stop)
 {
-    var time = Stopwatch.GetTimestamp();
-    if ((double)(time - lastMoveTime) / Stopwatch.Frequency > 0.1)
+    if ((double)timer.ElapsedTicks / Stopwatch.Frequency < 0.4)
     {
-        abacus.Next();
-        lastMoveTime = time;
+        continue;
     }
-    abacus.Write(array);
+    timer.Restart();
     Console.SetCursorPosition(0, 0);
+    Console.Write('|');
+    var index = 0;
+    for (int i = 0; i < 10; i++)
+    {
+        array[i] = false;
+    }
+    foreach (var item in abacus.Beads)
+    {
+        index += item;
+        array[index] = true;
+        index++;
+    }
     foreach (var item in array)
     {
-        Console.Write(item ? '█' : ' ');
+        Console.Write(item ? 'O' : ' ');
     }
+    Console.Write('|');
+    Console.WriteLine();
+    abacus.Next();
 }
+Console.ReadKey();
 
 sealed class Abacus
 {
@@ -133,21 +149,20 @@ sealed class Abacus
         }
         Beads[index - 1]++;
         Beads[index] = 0;
-        if (Beads[index] == 1)
-        {
-            SpecialMove();
-        }
+        Index = index;
     }
     public void Write(bool[] array)
     {
+        array[Index] = false;
         var sum = 0;
         for (int i = 0; i < K; i++)
         {
-            sum++;
             sum += Beads[i];
             array[sum] = true;
+            sum++;
         }
     }
+    int Index { get; set; }
     public int N { get; }
     public int K { get; }
     public int[] Beads { get; }
