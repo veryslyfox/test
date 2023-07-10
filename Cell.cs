@@ -1,6 +1,6 @@
-enum Cell
-{
-    Empty,
-    Cannon,
-    Projectile,
-}
+// enum Cell
+// {
+//     Empty,
+//     Cannon,
+//     Projectile,
+// }

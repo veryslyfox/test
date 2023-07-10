@@ -1,7 +1,7 @@
 using System.Numerics;
 static partial class MathHigh
 {
-    static partial class Googology
+    public static partial class Googology
     {
         static LazyElement<BigInteger> GoogolValue;
         public static BigInteger Googol

@@ -13,7 +13,7 @@ class Person
     }
     public override int GetHashCode()
     {
-        return Name.AsSpan(0, Math.Min(5, Name.Length - 1)).ToArray().Sum((char value) =>
+        return Name.AsSpan(0, Math.Min(5, Name.Length)).ToArray().Sum((char value) =>
          {
              return (value * value * value) ^ (value * value);
          });
