@@ -242,6 +242,42 @@ public class Vector
         }
         return new Vector(result, CreationOp.Add, new object[] { a, b });
     }
+    public static Matrix operator |(Vector left, Vector right)
+    {
+        var result = new Matrix(new double[left.Length, right.Length]);
+        for (int i = 0; i < left.Length; i++)
+        {
+            for (int j = 0; j < right.Length; j++)
+            {
+                result[i, j] = left[i] * right[j];
+            }   
+        }
+        return result;
+    }
+    public static Vector Probability(int truePosition, int positionCount)
+    {
+        var result = new Vector(new double[positionCount]);
+        result[truePosition] = 1;
+        return result;
+    }
+    public static Vector operator -(Vector a, Vector b)
+    {
+        var result = a.Values;
+        for (int i = 0; i < b.Length; i++)
+        {
+            result[i] -= b[i];
+        }
+        return new Vector(result, CreationOp.Add, new object[] { a, b });
+    }
+    public static Vector operator *(Vector a, double b)
+    {
+        var result = a.Values;
+        for (int i = 0; i < a.Length; i++)
+        {
+            result[i] *= b;
+        }
+        return new Vector(result);
+    }
 
     public double this[int index]
     {
@@ -361,6 +397,13 @@ public class Vector
                     break;
                 }
         }
+        if (Creators != null)
+            foreach (var creator in Creators)
+            {
+                if (creator is Vector vector)
+                {
+                }
+            }
     }
     public Vector Softmax()
     {
